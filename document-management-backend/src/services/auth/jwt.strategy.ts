@@ -1,0 +1,26 @@
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { PassportStrategy } from '@nestjs/passport';
+import { ExtractJwt, Strategy } from 'passport-jwt';
+import { jwtConstants } from '../../constants/jwt.constant';
+import { UserService } from '../user/user.service';
+
+@Injectable()
+export class JwtStrategy extends PassportStrategy(Strategy) {
+  constructor(private userService: UserService) {
+    super({
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ignoreExpiration: false,
+      secretOrKey: process.env.JWT_SECRET_KEY
+    });
+  }
+
+  async validate(payload: any) {
+    // Extract the username and roles from the JWT payload
+    const user = await this.userService.findById(payload.username);
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    return { userId: user.id, username: user.username, roles: user.roles }; // Attach user roles to request object
+  }
+}
