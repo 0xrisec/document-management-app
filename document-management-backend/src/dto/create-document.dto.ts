@@ -1,4 +1,3 @@
-// src/dto/create-document.dto.ts
 import { IsString, IsNotEmpty, IsUrl } from 'class-validator';
 
 export class CreateDocumentDto {
