@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { DocumentModule } from './modules/document/document.module';
+import { QnaModule } from './modules/qna/qna.module';
 import { UploadModule } from './modules/upload/upload.module';
 import { UserModule } from './modules/user/user.module';
 
@@ -29,6 +30,7 @@ import { UserModule } from './modules/user/user.module';
     UserModule,
     DocumentModule,
     UploadModule,
+    QnaModule
   ],
   controllers: [AppController],
   providers: [AppService],
