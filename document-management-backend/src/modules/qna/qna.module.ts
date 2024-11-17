@@ -6,6 +6,7 @@ import { RecursiveSplitter } from 'src/strategies/document-splitter/recursive-sp
 import { HuggingFaceRetriever } from 'src/strategies/retriever/huggingface-retriever';
 import { DefaultPromptTemplate } from 'src/strategies/prompt-template/default-prompt-template';
 import { GoogleGenerativeAIModel } from 'src/strategies/llm/google-generative-ai-model';
+import { QnaGateway } from 'src/gateways/qna.gateway';
 
 @Module({
   controllers: [QnaController],
@@ -31,6 +32,7 @@ import { GoogleGenerativeAIModel } from 'src/strategies/llm/google-generative-ai
       useClass: GoogleGenerativeAIModel,
     },
     QnaService,
+    QnaGateway
   ],
 })
 export class QnaModule {}

@@ -6,9 +6,14 @@ import { DocumentSplitterStrategy } from '../../strategies/document-splitter/rec
 import { RetrieverStrategy } from '../../strategies/retriever/huggingface-retriever';
 import { PromptTemplateStrategy } from '../../strategies/prompt-template/default-prompt-template';
 import { ModelStrategy } from 'src/strategies/llm/google-generative-ai-model';
+import { Server } from 'socket.io';
 
 @Injectable()
 export class QnaService {
+    private documents: any[] | null = null;
+    private retriever: any | null = null;
+    private server: Server | null = null;
+
     constructor(
         @Inject('DocumentLoaderStrategy') private readonly documentLoader: DocumentLoaderStrategy,
         @Inject('DocumentSplitterStrategy') private readonly documentSplitter: DocumentSplitterStrategy,
@@ -17,10 +22,31 @@ export class QnaService {
         @Inject('ModelStrategy') private readonly modelStrategy: ModelStrategy
     ) { }
 
+    setServer(server: Server) {
+        this.server = server;
+    }
+
+    private async initializeDocuments() {
+        if (!this.documents) {
+            this.emitStatus('Loading documents...');
+            const docs = await this.documentLoader.loadDocuments('./MTeck_s_Resume-1.pdf');
+            this.emitStatus('Splitting documents...');
+            this.documents = await this.documentSplitter.splitDocuments(docs);
+            this.emitStatus('Creating retriever...');
+            this.retriever = await this.retrieverStrategy.createRetriever(this.documents);
+            this.emitStatus('Documents initialized.');
+        }
+    }
+
+    private emitStatus(message: string) {
+        if (this.server) {
+            this.server.emit('ingestionStatus', { message });
+        }
+    }
+
     async askQuestion(question: string) {
-        const docs = await this.documentLoader.loadDocuments('./MTeck_s_Resume-1.pdf');
-        const splits = await this.documentSplitter.splitDocuments(docs);
-        const retriever = await this.retrieverStrategy.createRetriever(splits);
+        await this.initializeDocuments();
+
         const prompt = this.promptTemplateStrategy.createPromptTemplate();
         const model = this.modelStrategy.createModel();
 
@@ -30,7 +56,7 @@ export class QnaService {
         });
 
         const ragChain = await createRetrievalChain({
-            retriever,
+            retriever: this.retriever,
             combineDocsChain: questionAnswerChain,
         });
 
