@@ -1,0 +1,17 @@
+<div class="card flex justify-content-center">
+    <p-toast />
+    <p-fileUpload name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php" (onUpload)="onUpload($event)"
+        [multiple]="true" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt" maxFileSize="1000000">
+        <ng-template pTemplate="content">
+            <ul *ngIf="uploadedFiles.length">
+                <li *ngFor="let file of uploadedFiles">
+                    {{ file.name }} - {{ file.size }} bytes
+                </li>
+            </ul>
+            <!-- <div class="p-d-flex p-ai-center p-jc-center" style="height: 150px; border: 2px dashed #ccc;">
+                    <i class="pi pi-upload" style="font-size: 2em; color: #ccc;"></i>
+                    <span class="ml-2">Drag and drop files here to upload</span>
+                </div> -->
+        </ng-template>
+    </p-fileUpload>
+</div>

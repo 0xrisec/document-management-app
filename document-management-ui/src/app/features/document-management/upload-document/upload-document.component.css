@@ -1,0 +1,17 @@
+.container {
+    max-width: 600px;
+}
+
+.card-header {
+    background-color: #007bff;
+    color: white;
+}
+
+.p-fileupload-content {
+    border: none;
+}
+
+.p-fileupload-buttonbar {
+    display: flex;
+    justify-content: center;
+}

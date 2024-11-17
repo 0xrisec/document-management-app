@@ -1,0 +1,22 @@
+<div class="chat-container">
+    <div class="chat-header bg-primary text-white p-2">
+        <h3>Chat</h3>
+    </div>
+    <div #chatBody class="chat-body p-3">
+        <div *ngFor="let message of messages" class="d-flex mb-2">
+            <div [ngClass]="{
+                    'message-sent ms-auto text-end': message.sent,
+                    'message-received me-auto text-start': !message.sent
+                }" class="message rounded p-2">
+                {{ message.text }}
+            </div>
+        </div>
+    </div>
+    <div class="chat-footer d-flex align-items-center p-2 border-top">
+        <input type="text" class="form-control me-2" [(ngModel)]="newMessage" placeholder="Type a message"
+            (keydown.enter)="sendMessage()" />
+        <button pButton type="button" icon="pi pi-send" class="btn btn-primary" (click)="sendMessage()">
+            Send
+        </button>
+    </div>
+</div>
