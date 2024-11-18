@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { MessageService, PrimeNGConfig } from 'primeng/api';
-import { FileUploadModule, FileUploadEvent } from 'primeng/fileupload';
+import { FileUploadModule, FileUploadEvent, FileUploadHandlerEvent } from 'primeng/fileupload';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 import { BadgeModule } from 'primeng/badge';
 import { HttpClientModule } from '@angular/common/http';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ToastModule } from 'primeng/toast';
+import { DocumentService } from '../../../core/services/document.service';
 
 @Component({
   selector: 'app-upload-document',
@@ -21,12 +22,13 @@ export class UploadDocumentComponent {
   totalSize: number = 0;
   totalSizePercent: number = 0;
 
-  constructor(private config: PrimeNGConfig, private messageService: MessageService) { }
+  constructor(private messageService: MessageService, private documentService: DocumentService) { }
 
-  onUpload(event: FileUploadEvent) {
+  onUpload(event: FileUploadHandlerEvent) {
+    this.uploadedFiles = [];
     for (let file of event.files) {
       this.uploadedFiles.push(file);
+      this.messageService.add({ severity: 'success', summary: 'File Uploaded', detail: "file uploaded" });
     }
-    this.messageService.add({ severity: 'info', summary: 'File Uploaded', detail: '' });
   }
 }

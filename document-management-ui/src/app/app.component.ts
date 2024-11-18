@@ -1,29 +1,27 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { SocketIoModule } from 'ngx-socket-io';
-import { SocketIoConfig } from 'ngx-socket-io/src/config/socket-io.config';
-import { WrappedSocket } from 'ngx-socket-io/src/socket-io.service';
 import { SocketService } from './core/services/socket.service';
-import { SidebarComponent } from './features/dashboard/sidebar/sidebar.component'
-import { DocumentListComponent } from './features/document-management/document-list/document-list.component';
-import { DocumentViewerComponent } from './features/document-management/document-viewer/document-viewer.component';
-import { UploadDocumentComponent } from './features/document-management/upload-document/upload-document.component';
-import { QnaInterfaceComponent } from './features/qna-interface/qna-interface.component';
+import { SignupComponent } from './features/auth/signup/signup.component';
 import { SocketModule } from './module/scoket.module';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
     RouterOutlet,
-    SidebarComponent,
-    UploadDocumentComponent,
-    DocumentListComponent,
-    DocumentViewerComponent,
-    QnaInterfaceComponent,
-    SocketModule
+    SocketModule,
+    SignupComponent,
+    ToastModule
   ],
-  providers: [SocketService],
+  providers: [
+    SocketService,
+    MessageService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

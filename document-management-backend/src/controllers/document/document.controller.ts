@@ -2,11 +2,10 @@ import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Reques
 import { AuthGuard } from '@nestjs/passport';
 import { ObjectId } from 'mongodb';
 import { CreateDocumentDto } from 'src/dto/create-document.dto';
-import { Document } from 'src/entities/document.entity';
 import { DocumentService } from 'src/services/document/document.service';
 
 @Controller('document')
-@UseGuards(AuthGuard('jwt'))
+// @UseGuards(AuthGuard('jwt'))
 export class DocumentController {
     constructor(private readonly documentsService: DocumentService) { }
 
@@ -44,7 +43,7 @@ export class DocumentController {
         if (!userId) {
             throw new BadRequestException('User ID is required');
         }
-        
+
         // Validate the document ID
         if (!id || !ObjectId.isValid(id)) {
             throw new BadRequestException('Invalid document ID');

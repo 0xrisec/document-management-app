@@ -57,18 +57,26 @@
                 <div class="mt-auto">
                     <div class="petal-actions">
                         <div class="list-group">
-                            <button class="list-group-item list-group-item-action active" tabindex="0" role="button">
+                            <button class="list-group-item list-group-item-action" [routerLink]="['/dashboard/upload']"
+                                [ngClass]="{'active': activeButton === 'upload'}" (click)="setActive('upload')"
+                                tabindex="0" role="button">
                                 <i class="pi pi-plus-circle"></i> Upload / Import
                             </button>
-                            <button class="list-group-item list-group-item-action" tabindex="0" role="button">
+                            <button class="list-group-item list-group-item-action"
+                                [routerLink]="['/dashboard/documents']"
+                                [ngClass]="{'active': activeButton === 'documents'}" (click)="setActive('documents')"
+                                tabindex="1" role="button">
                                 <i class="pi pi-book"></i> Documents
                             </button>
-                            <button class="list-group-item list-group-item-action" tabindex="0" role="button">
+                            <button class="list-group-item list-group-item-action" [routerLink]="['/dashboard/users']"
+                                [ngClass]="{'active': activeButton === 'users'}" (click)="setActive('users')"
+                                tabindex="2" role="button">
                                 <i class="pi pi-chart-bar"></i> Users
                             </button>
                         </div>
                     </div>
                 </div>
+
             </div>
             <div class="mt-auto">
                 <hr class="mb-3 mx-3 border-top-1 border-none surface-border" />

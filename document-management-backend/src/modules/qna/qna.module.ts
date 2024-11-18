@@ -7,13 +7,14 @@ import { HuggingFaceRetriever } from 'src/strategies/retriever/huggingface-retri
 import { DefaultPromptTemplate } from 'src/strategies/prompt-template/default-prompt-template';
 import { GoogleGenerativeAIModel } from 'src/strategies/llm/google-generative-ai-model';
 import { QnaGateway } from 'src/gateways/qna.gateway';
+import { CustomDocumentLoaderStrategy } from 'src/strategies/document-loader/custom-document-loader';
 
 @Module({
   controllers: [QnaController],
   providers: [
     {
       provide: 'DocumentLoaderStrategy',
-      useClass: PDFDocumentLoader,
+      useClass: CustomDocumentLoaderStrategy,
     },
     {
       provide: 'DocumentSplitterStrategy',
@@ -35,4 +36,4 @@ import { QnaGateway } from 'src/gateways/qna.gateway';
     QnaGateway
   ],
 })
-export class QnaModule {}
+export class QnaModule { }

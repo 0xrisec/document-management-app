@@ -12,7 +12,7 @@ import { UserModule } from './modules/user/user.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-        isGlobal: true
+      isGlobal: true
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -20,7 +20,7 @@ import { UserModule } from './modules/user/user.module';
       useFactory: async (configService: ConfigService): Promise<TypeOrmModuleOptions> => ({
         type: configService.get<string>('DB_TYPE') as any,
         url: configService.get<string>('DB_URL'),
-        database: configService.get<string>('DB_NAME'), 
+        database: configService.get<string>('DB_NAME'),
         synchronize: false,
         useUnifiedTopology: true,
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
@@ -35,4 +35,4 @@ import { UserModule } from './modules/user/user.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

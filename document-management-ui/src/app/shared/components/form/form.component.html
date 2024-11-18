@@ -1,0 +1,25 @@
+<!-- dynamic-form.component.html -->
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h3>{{ config.title }}</h3>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div *ngFor="let field of config.fields" class="form-group">
+                    <label [for]="field.name">{{ field.label }}</label>
+                    <input [type]="field.type" [id]="field.name" class="form-control" [formControlName]="field.name"
+                        [required]="field.required" />
+                    <div *ngIf="form.get(field.name)?.touched && form.get(field.name)?.invalid">
+                        <small class="text-danger">{{ field.label }} is required.</small>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block" [disabled]="form.invalid">
+                    {{ formType === 'signup' ? 'Sign Up' : 'Sign In' }}
+                </button>
+            </form>
+            <a *ngIf="formType === 'signup'" href="/sign_in" class="d-block text-center mt-3">Have an account? Sign
+                in.</a>
+        </div>
+    </div>
+</div>

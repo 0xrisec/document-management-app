@@ -15,7 +15,6 @@ export class CloudinaryService {
         try {
             const fileBuffer = await fs.readFile(filePath);
             const fileType = extname(filePath).slice(1); // Extract file extension without the dot
-            console.log(fileType)
             return new Promise((resolve, reject) => {
                 cloudinary.uploader.upload_stream(
                     { folder, resource_type: 'raw',

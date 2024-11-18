@@ -29,7 +29,7 @@ export class QnaService {
     private async initializeDocuments() {
         if (!this.documents) {
             this.emitStatus('Loading documents...');
-            const docs = await this.documentLoader.loadDocuments('./MTeck_s_Resume-1.pdf');
+            const docs = await this.documentLoader.loadDocuments('https://res.cloudinary.com/document-management/raw/upload/v1731869119/pk7m4zocq2k6fxpyh2z5');
             this.emitStatus('Splitting documents...');
             this.documents = await this.documentSplitter.splitDocuments(docs);
             this.emitStatus('Creating retriever...');

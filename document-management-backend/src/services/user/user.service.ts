@@ -12,7 +12,7 @@ export class UserService {
         private userRepository: Repository<User>,
     ) { }
 
-    async register(username: string, name: string, email: string, password: string): Promise<User> {
+    async register(username: string, name: string, email: string, password: string): Promise<any> {
         const existingUser = await this.userRepository.findOne({ where: { email } });
         if (existingUser) {
             throw new ConflictException('Email already exists');
@@ -26,8 +26,8 @@ export class UserService {
             roles: [Role.User],
             createdAt: new Date(), // Current date
         });
-
-        return this.userRepository.save(user);
+        await this.userRepository.save(user);
+        return { "message": 'User registered successfully' };
     }
 
     async validateUser(email: string, password: string): Promise<any> {
