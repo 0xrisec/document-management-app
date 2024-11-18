@@ -1,27 +1,48 @@
-import { BadRequestException, Controller, InternalServerErrorException, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Controller, InternalServerErrorException, Post, UploadedFile, UseInterceptors, Request, UseGuards } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UploadService } from 'src/services/upload/upload.service';
+import { DocumentService } from 'src/services/document/document.service';
+import { UserService } from 'src/services/user/user.service';
 import { storageConfig } from '../../configurations/storage.config';
+import { CreateDocumentDto } from 'src/dto/create-document.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('upload')
+@UseGuards(AuthGuard('jwt'))
 export class UploadController {
-    constructor(private readonly uploadService: UploadService) { }
+    constructor(
+        private readonly uploadService: UploadService,
+        private readonly documentService: DocumentService,
+        private readonly userService: UserService,
+    ) { }
 
     @Post()
     @UseInterceptors(FileInterceptor('file', { storage: storageConfig() }))
-    async uploadFile(@UploadedFile() file: Express.Multer.File) {
+    async uploadFile(@UploadedFile() file: Express.Multer.File, @Request() req) {
         if (!file) {
             throw new BadRequestException('No file provided');
         }
         try {
             const result = await this.uploadService.uploadFileToCloudinary(file);
+            const fileUrl: string = result.secure_url;
+            const fileType = result.context.custom.file_type;
+            const createDocumentDto: CreateDocumentDto = {
+                title: 'Uploaded Document',
+                contentType: fileType,
+                contentUrl: fileUrl,
+                author: req.user.name,
+                userId: req.user.userId,
+            };
+
+            const document = await this.documentService.create(createDocumentDto);
+
             return {
-                message: 'File uploaded successfully',
-                url: result.secure_url,
+                message: 'File uploaded and document created successfully',
+                document,
             };
         } catch (error) {
-            console.error('Error uploading file:', error);
-            throw new InternalServerErrorException('Failed to upload file');
+            console.error('Error uploading file or creating document:', error);
+            throw new InternalServerErrorException('Failed to upload file or create document');
         }
     }
 }

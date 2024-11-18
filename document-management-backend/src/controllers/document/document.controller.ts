@@ -5,7 +5,7 @@ import { CreateDocumentDto } from 'src/dto/create-document.dto';
 import { DocumentService } from 'src/services/document/document.service';
 
 @Controller('document')
-// @UseGuards(AuthGuard('jwt'))
+@UseGuards(AuthGuard('jwt'))
 export class DocumentController {
     constructor(private readonly documentsService: DocumentService) { }
 
@@ -15,7 +15,8 @@ export class DocumentController {
         if (!userId) {
             throw new BadRequestException('User ID is required');
         }
-        return this.documentsService.create(createDocumentDto, userId);
+        createDocumentDto.userId = userId;
+        return this.documentsService.create(createDocumentDto);
     }
 
     @Get()

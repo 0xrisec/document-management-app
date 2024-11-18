@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { catchError, map, Observable, of } from 'rxjs';
 import { HttpService } from './http.service';
 
@@ -7,14 +8,18 @@ import { HttpService } from './http.service';
 })
 export class AuthService {
 
-    constructor(private httpService: HttpService) { }
+    constructor(private httpService: HttpService, @Inject(PLATFORM_ID) private platformId: Object) { }
 
     validateToken(token: string): Observable<any> {
         return this.httpService.post('http://localhost:3000/auth/validate-token', { token });
     }
 
     isAuthenticated(): Observable<boolean> {
-        const token = localStorage.getItem('accessToken');
+        let token: string | null = null;
+        if (isPlatformBrowser(this.platformId)) {
+            token = localStorage.getItem('accessToken') || null;
+        }
+
         if (!token) {
             return of(false);
         }

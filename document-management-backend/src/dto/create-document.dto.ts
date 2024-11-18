@@ -1,4 +1,5 @@
 import { IsString, IsNotEmpty, IsUrl } from 'class-validator';
+import { ObjectId } from 'mongodb';
 
 export class CreateDocumentDto {
   @IsString()
@@ -16,4 +17,7 @@ export class CreateDocumentDto {
   @IsString()
   @IsNotEmpty()
   author: string;
+
+  @IsNotEmpty()
+  userId: ObjectId;
 }

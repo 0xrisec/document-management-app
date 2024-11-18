@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 import { User } from 'src/entities/user.entity';
 import { Role } from 'src/enums/roles.enum';
+import { ObjectId } from 'mongodb';
 
 @Injectable()
 export class UserService {
@@ -43,10 +44,10 @@ export class UserService {
         return this.userRepository.find();
     }
 
-    async findById(username: string): Promise<User> {
+    async findById(userId: ObjectId): Promise<User> {
         // Convert the string ID to ObjectId (MongoDB)
         const user = await this.userRepository.findOne({
-            where: { username: username }
+            where: { id: userId }
         });
 
         if (!user) {

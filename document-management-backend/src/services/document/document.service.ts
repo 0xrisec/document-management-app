@@ -12,10 +12,9 @@ export class DocumentService {
         private documentRepository: MongoRepository<Document>,
     ) { }
 
-    async create(createDocumentDto: CreateDocumentDto, userId: ObjectId): Promise<Document> {
-        const document = this.documentRepository.create({ 
-            ...createDocumentDto, 
-            userId,
+    async create(createDocumentDto: CreateDocumentDto): Promise<Document> {
+        const document = this.documentRepository.create({
+            ...createDocumentDto,
             createdAt: new Date()
         });
         return this.documentRepository.save(document);
