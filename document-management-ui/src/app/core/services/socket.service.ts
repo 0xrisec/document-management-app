@@ -77,4 +77,13 @@ export class SocketService {
         if (!this.socket) return of(null);
         return this.socket.fromEvent('error');
     }
+
+    initializeDocuments(fileUrl: string) {
+        this.socket.emit('initializeDocuments', { fileUrl });
+    }
+
+    getIngestionStatus(): Observable<any> {
+        if (!this.socket) return of(null);
+        return this.socket.fromEvent('ingestionStatus');
+    }
 }

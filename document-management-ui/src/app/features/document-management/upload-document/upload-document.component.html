@@ -1,33 +1,12 @@
-<div class="card flex justify-content-center">
-    <!-- <p-toast />
-    <p-fileUpload 
-    name="demo[]" 
-    url="https://www.primefaces.org/cdn/api/upload.php" 
-    (onUpload)="onUpload($event)" 
-    [multiple]="true" 
-    accept="image/*" 
-    maxFileSize="1000000">
-        <ng-template pTemplate="content">
-            <ul *ngIf="uploadedFiles.length">
-                <li *ngFor="let file of uploadedFiles">
-                    {{ file.name }} - {{ file.size }} bytes
-                </li>
-            </ul>
-        </ng-template>
-</p-fileUpload> --> 
-
+<div class="rounded-0 d-flex justify-content-center">
     <p-fileUpload name="file" url="http://localhost:3000/upload/"  (onUpload)="onUpload($event)" 
-        [multiple]="true" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt" maxFileSize="1000000">
+        [multiple]="true" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt" maxFileSize="10000000">
         <ng-template pTemplate="content">
-            <ul *ngIf="uploadedFiles.length">
-                <li *ngFor="let file of uploadedFiles">
-                    {{ file.name }} - {{ file.size }} bytes
+            <ul *ngIf="uploadedFiles.length" class="unorder-list">
+                <li *ngFor="let doc of uploadedFiles" [routerLink]="['/dashboard/docQna', doc.url]" [ngClass]="'line-item'">
+                    {{ doc.file.name }} - {{ doc.file.size }} bytes
                 </li>
             </ul>
-            <!-- <div class="p-d-flex p-ai-center p-jc-center" style="height: 150px; border: 2px dashed #ccc;">
-                    <i class="pi pi-upload" style="font-size: 2em; color: #ccc;"></i>
-                    <span class="ml-2">Drag and drop files here to upload</span>
-                </div> -->
         </ng-template>
     </p-fileUpload>
 </div>

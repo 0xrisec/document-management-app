@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { UserService } from '../../../core/services/user.service';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 
 @Component({
@@ -9,6 +10,11 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
+  constructor(private userService: UserService) {
+  }
 
+  ngOnInit(): void {
+    this.userService.getProfile('http://localhost:3000/user/profile');
+  }
 }

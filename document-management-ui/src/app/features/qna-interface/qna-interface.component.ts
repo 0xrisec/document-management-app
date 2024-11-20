@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, AfterViewChecked, OnInit, Renderer2 } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewChecked, OnInit, Renderer2, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms'; // Import FormsModule
 import { CommonModule } from '@angular/common'; // Import CommonModule
 import { SocketService } from '../../core/services/socket.service';
@@ -12,6 +12,7 @@ import { SocketService } from '../../core/services/socket.service';
 })
 export class QnaInterfaceComponent implements AfterViewChecked, OnInit {
   @ViewChild('chatBody') chatBody: ElementRef | undefined;
+  @Input() fileUrl!: string;
 
   messages = [
     { text: 'Hello!', sent: true },
@@ -20,6 +21,8 @@ export class QnaInterfaceComponent implements AfterViewChecked, OnInit {
   newMessage = '';
   answer!: string;
   error: string | null = null;
+  ingestionStatus: string | null = null;
+  isLoading = false;
 
   constructor(private renderer: Renderer2, private socketService: SocketService) { }
 
@@ -39,6 +42,7 @@ export class QnaInterfaceComponent implements AfterViewChecked, OnInit {
     this.socketService.getAnswer().subscribe((data: any) => {
       if (data) {
         this.answer = data?.msg?.answer;
+        this.isLoading = false;
         if (this.answer)
           this.messages.push({ text: this.answer, sent: false });
       }
@@ -47,6 +51,12 @@ export class QnaInterfaceComponent implements AfterViewChecked, OnInit {
     this.socketService.getError().subscribe((err: any) => {
       if (err) this.error = err.error;
     });
+
+    this.socketService.getIngestionStatus().subscribe((status: any) => {
+      this.ingestionStatus = status.message;
+    });
+
+    this.initializeDocuments();
   }
 
   // This method is used to create Socket-IO connection with the server.
@@ -57,8 +67,16 @@ export class QnaInterfaceComponent implements AfterViewChecked, OnInit {
   }
 
   sendMessage() {
-    this.messages.push({ text: this.newMessage, sent: true });
-    this.socketService.askQuestion(this.newMessage);
-    this.newMessage = '';
+    if (this.newMessage.trim()) {
+      this.messages.push({ text: this.newMessage, sent: true });
+      this.socketService.askQuestion(this.newMessage);
+      this.newMessage = '';
+      this.isLoading = true;
+    }
+  }
+
+
+  private initializeDocuments() {
+    this.socketService.initializeDocuments(this.fileUrl);
   }
 }

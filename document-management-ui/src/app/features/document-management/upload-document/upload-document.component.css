@@ -15,3 +15,15 @@
     display: flex;
     justify-content: center;
 }
+
+.line-item {
+    color: blue; 
+    cursor: pointer; 
+    list-style-type: none;
+}
+
+
+.unorder-list {
+    padding-left: 0px;
+    margin-bottom: 0px;
+}

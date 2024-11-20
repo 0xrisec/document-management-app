@@ -7,12 +7,16 @@ export class Document {
     id: ObjectId;
 
     @Column()
-    title: string;
-    @Column()
-    content: string; 
+    contentUrl: string; 
 
     @Column()
-    contentType: string;
+    fileType: string;
+
+    @Column()
+    fileName: string;
+
+    @Column()
+    originalName: string
 
     @Column()
     author: string;

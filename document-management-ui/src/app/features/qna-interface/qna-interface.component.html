@@ -1,6 +1,7 @@
 <div class="chat-container">
     <div class="chat-header bg-primary text-white p-2">
         <h3>Chat</h3>
+        {{ingestionStatus}}
     </div>
     <div #chatBody class="chat-body p-3">
         <div *ngFor="let message of messages" class="d-flex mb-2">
@@ -9,6 +10,11 @@
                     'message-received me-auto text-start': !message.sent
                 }" class="message rounded p-2">
                 {{ message.text }}
+            </div>
+        </div>
+        <div *ngIf="isLoading" class="loading-indicator">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
             </div>
         </div>
     </div>

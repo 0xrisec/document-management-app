@@ -6,7 +6,7 @@ import { SocketModule } from './module/scoket.module';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { HttpReqInterceptor } from './core/interceptors/http.interceptor';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +20,7 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
   providers: [
     SocketService,
     MessageService,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: HttpReqInterceptor, multi: true }
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

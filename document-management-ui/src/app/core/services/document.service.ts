@@ -1,12 +1,15 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpService } from './http.service';
+import { Document } from '../../interfaces/document.interface';
+import { DocumentModel } from '../../models/doc.model';
 
 @Injectable({
     providedIn: 'root'
 })
 export class DocumentService {
+    public documents = signal<Document[]>([]);
     constructor(private httpService: HttpService) { }
 
     uploadFile(url:string, file: File): Observable<any> {
@@ -20,5 +23,19 @@ export class DocumentService {
             'Content-Type': 'application/json'
         });
         return this.httpService.post(url, documentData, headers);
+    }
+
+    getDocuments() {
+        const url = "http://localhost:3000/document/"
+        this.httpService.get<DocumentModel[]>(url).subscribe({
+            next: (res: any) => {
+                this.documents.set(res.map((doc:any) => new DocumentModel(
+                    doc.id, doc.fileName, doc.contentUrl, doc.fileType, doc.author, doc.createdAt, doc.userId
+                )));
+            },
+            error: (err) => {
+                console.error(err);
+            }
+        });
     }
 }

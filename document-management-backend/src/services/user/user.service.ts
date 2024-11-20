@@ -24,7 +24,7 @@ export class UserService {
             name,
             email,
             password: hashedPassword,
-            roles: [Role.User],
+            roles: [Role.Admin],
             createdAt: new Date(), // Current date
         });
         await this.userRepository.save(user);
@@ -44,10 +44,9 @@ export class UserService {
         return this.userRepository.find();
     }
 
-    async findById(userId: ObjectId): Promise<User> {
-        // Convert the string ID to ObjectId (MongoDB)
+    async findByUsername(username: string): Promise<User> {
         const user = await this.userRepository.findOne({
-            where: { id: userId }
+            where: { username: username }
         });
 
         if (!user) {

@@ -31,4 +31,14 @@ export class QnaGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
             this.server.emit('error', { error: error.message });
         }
     }
+
+    @SubscribeMessage('initializeDocuments')
+    async handleInitializeDocuments(@MessageBody() data: { fileUrl: string }): Promise<void> {
+        try {
+            await this.qnaService.initializeDocuments(data.fileUrl);
+            this.server.emit('ingestionStatus', { message: 'Documents initialized successfully.' });
+        } catch (error) {
+            this.server.emit('error', { error: error.message });
+        }
+    }
 }

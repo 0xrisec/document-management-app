@@ -4,15 +4,15 @@ import { FileUploadModule, FileUploadEvent, FileUploadHandlerEvent } from 'prime
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 import { BadgeModule } from 'primeng/badge';
-import { HttpClientModule } from '@angular/common/http';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ToastModule } from 'primeng/toast';
 import { DocumentService } from '../../../core/services/document.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-upload-document',
   standalone: true,
-  imports: [FileUploadModule, ButtonModule, BadgeModule, ProgressBarModule, ToastModule, HttpClientModule, CommonModule],
+  imports: [RouterModule, FileUploadModule, ButtonModule, BadgeModule, ProgressBarModule, ToastModule, CommonModule],
   templateUrl: './upload-document.component.html',
   styleUrl: './upload-document.component.css',
   providers: [MessageService]
@@ -24,10 +24,11 @@ export class UploadDocumentComponent {
 
   constructor(private messageService: MessageService, private documentService: DocumentService) { }
 
-  onUpload(event: FileUploadHandlerEvent) {
-    this.uploadedFiles = [];
+  onUpload(event: any) {
+    this.documentService.documents.set([]);
     for (let file of event.files) {
-      this.uploadedFiles.push(file);
+      const url = event.originalEvent.body.document.contentUrl;
+      this.uploadedFiles.push({ file, url });
       this.messageService.add({ severity: 'success', summary: 'File Uploaded', detail: "file uploaded" });
     }
   }

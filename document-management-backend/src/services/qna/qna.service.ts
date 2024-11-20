@@ -26,16 +26,14 @@ export class QnaService {
         this.server = server;
     }
 
-    private async initializeDocuments() {
-        if (!this.documents) {
-            this.emitStatus('Loading documents...');
-            const docs = await this.documentLoader.loadDocuments('https://res.cloudinary.com/document-management/raw/upload/v1731869119/pk7m4zocq2k6fxpyh2z5');
-            this.emitStatus('Splitting documents...');
-            this.documents = await this.documentSplitter.splitDocuments(docs);
-            this.emitStatus('Creating retriever...');
-            this.retriever = await this.retrieverStrategy.createRetriever(this.documents);
-            this.emitStatus('Documents initialized.');
-        }
+    async initializeDocuments(fileUrl: string) {
+        this.emitStatus('Loading documents...');
+        const docs = await this.documentLoader.loadDocuments(fileUrl);
+        this.emitStatus('Splitting documents...');
+        this.documents = await this.documentSplitter.splitDocuments(docs);
+        this.emitStatus('Creating retriever...');
+        this.retriever = await this.retrieverStrategy.createRetriever(this.documents);
+        this.emitStatus('Documents initialized.');
     }
 
     private emitStatus(message: string) {
@@ -45,8 +43,6 @@ export class QnaService {
     }
 
     async askQuestion(question: string) {
-        await this.initializeDocuments();
-
         const prompt = this.promptTemplateStrategy.createPromptTemplate();
         const model = this.modelStrategy.createModel();
 

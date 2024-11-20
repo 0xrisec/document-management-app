@@ -2,17 +2,17 @@ import { IsString, IsNotEmpty, IsUrl } from 'class-validator';
 import { ObjectId } from 'mongodb';
 
 export class CreateDocumentDto {
-  @IsString()
-  @IsNotEmpty()
-  title: string;
-
   @IsUrl()
   @IsNotEmpty()
   contentUrl: string;
 
   @IsString()
   @IsNotEmpty()
-  contentType: string;
+  fileType: string;
+
+  @IsString()
+  @IsNotEmpty()
+  fileName: string;
 
   @IsString()
   @IsNotEmpty()
@@ -20,4 +20,6 @@ export class CreateDocumentDto {
 
   @IsNotEmpty()
   userId: ObjectId;
+
+  originalName: string;
 }

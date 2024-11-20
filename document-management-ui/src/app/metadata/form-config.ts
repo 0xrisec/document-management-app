@@ -1,4 +1,3 @@
-// form-config.ts
 export const formConfig = {
     signup: {
         title: 'Create Your Account',
@@ -9,7 +8,7 @@ export const formConfig = {
             { name: 'password', type: 'password', label: 'Password', required: true },
             { name: 'passwordConfirm', type: 'password', label: 'Confirm Password', required: true }
         ]
-},
+    },
     login: {
         title: 'Sign In',
         fields: [

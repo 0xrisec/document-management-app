@@ -26,12 +26,14 @@ export class UploadController {
             const result = await this.uploadService.uploadFileToCloudinary(file);
             const fileUrl: string = result.secure_url;
             const fileType = result.context.custom.file_type;
+            const fileName = file.filename;
             const createDocumentDto: CreateDocumentDto = {
-                title: 'Uploaded Document',
-                contentType: fileType,
+                fileType: fileType,
                 contentUrl: fileUrl,
+                fileName: fileName,
                 author: req.user.name,
                 userId: req.user.userId,
+                originalName: file.originalname
             };
 
             const document = await this.documentService.create(createDocumentDto);

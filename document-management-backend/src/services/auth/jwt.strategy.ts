@@ -15,7 +15,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   async validate(payload: any) {
     // Extract the username and roles from the JWT payload
-    const user = await this.userService.findById(payload.username);
+    const user = await this.userService.findByUsername(payload.username);
     if (!user) {
       throw new UnauthorizedException('User not found');
     }

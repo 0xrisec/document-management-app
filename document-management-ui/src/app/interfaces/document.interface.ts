@@ -1,8 +1,8 @@
 export interface Document {
     id?: string;
-    title?: string;
-    content?: string;
-    contentType?: string;
+    fileName?: string;
+    contentUrl?: string;
+    fileType?: string;
     author?: string;
     createdAt?: Date;
     userId?: string;
