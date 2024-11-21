@@ -27,3 +27,32 @@ body {
 .sidebar-p-button button{
     border: none;
 }
+
+.custom-form .p-table {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.custom-form .p-table thead th {
+    background-color: #f4f4f4;
+    text-align: left;
+    font-weight: bold;
+}
+
+.custom-form .p-table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+.custom-form .p-button {
+    margin-right: 0.5rem;
+}
+
+.custom-form .p-dialog .p-fluid .field {
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 768px) {
+    .custom-form .p-table {
+        font-size: 0.9rem;
+    }
+}
