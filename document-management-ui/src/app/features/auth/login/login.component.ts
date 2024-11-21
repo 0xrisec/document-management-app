@@ -33,7 +33,7 @@ export class LoginComponent {
             this.router.navigate(['/dashboard'])
           },
           error: (err) => {
-            this.messageService.add({ severity: 'error', summary: 'Success', detail: err.message, life: 3000  });
+            this.messageService.add({ severity: 'error', summary: 'Success', detail: err.error.message, life: 3000  });
           }
         }
       )

@@ -67,4 +67,10 @@ export class UserService {
             }
         });
     }
+
+    logout(): void {
+        localStorage.removeItem('accessToken');
+        this._currentUser.set(null);
+        console.log('User logged out successfully');
+    }
 }
