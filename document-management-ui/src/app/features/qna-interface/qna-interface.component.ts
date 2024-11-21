@@ -75,7 +75,6 @@ export class QnaInterfaceComponent implements AfterViewChecked, OnInit {
     }
   }
 
-
   private initializeDocuments() {
     this.socketService.initializeDocuments(this.fileUrl);
   }

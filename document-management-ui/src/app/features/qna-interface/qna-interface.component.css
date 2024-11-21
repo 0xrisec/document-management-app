@@ -1,91 +1,50 @@
-.chat-container {
-    display: flex;
-    flex-direction: column;
-    height: 400px;
-    border: 1px solid #ccc;
-}
-
-.chat-header {
-    padding: 10px;
-    background-color: #007bff;
-    color: white;
-    text-align: center;
-}
-
 .chat-body {
-    flex: 1;
-    padding: 10px;
+    max-height: 400px;
     overflow-y: auto;
-    max-height: 100vh;
-    background-color: #f8f9fa;
-}
-
-.message {
-    margin: 5px 0;
+    background-color: #f0f0f0;
 }
 
 .message-sent {
-    text-align: right;
-    background-color: #dcf8c6;
-    padding: 10px;
-    border-radius: 10px;
-    display: inline-block;
-    align-self: flex-end;
+    background-color: #e1ffc7; /* Light green for sent messages */
 }
 
 .message-received {
-    text-align: left;
-    background-color: rgb(222, 232, 247);
-    padding: 10px;
-    border-radius: 10px;
-    display: inline-block;
-    align-self: flex-start;
+    background-color: #007bff; /* Blue for received messages */
+    color: white;
+}
+
+.timestamp {
+    font-size: 0.75rem;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.text-muted {
+    color: #6c757d;
+}
+
+.text-white {
+    color: white;
+}
+
+.status-retrieving {
+    color: orange;
+}
+
+.status-success {
+    color: green;
+}
+
+.status-failed {
+    color: red;
+}
+
+.chat-header {
+    background: #5472d4;
 }
 
 .chat-footer {
-    display: flex;
-    padding: 10px;
-    background-color: #f1f1f1;
-}
-
-.chat-footer input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-.chat-footer button {
-    margin-left: 10px;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-}
-
-.chat-body {
-    overflow-y: auto;
-    max-height: 400px;
-    scroll-behavior: smooth;
-}
-
-
-.chat-body {
-    overflow-y: auto;
-    max-height: 400px;
-    scroll-behavior: smooth;
-}
-
-.chat-body::-webkit-scrollbar {
-    width: 8px;
-}
-
-.chat-body::-webkit-scrollbar-thumb {
-    background-color: #888;
-    border-radius: 4px;
-}
-
-.chat-body::-webkit-scrollbar-thumb:hover {
-    background-color: #555;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
 }

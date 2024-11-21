@@ -1,29 +1,21 @@
-.container {
+.card {
     max-width: 600px;
+    margin: 20px auto;
 }
 
-.card-header {
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.pi-file {
+    color: #007bff;
+}
+
+.badge-primary {
     background-color: #007bff;
-    color: white;
 }
 
-.p-fileupload-content {
-    border: none;
-}
-
-.p-fileupload-buttonbar {
-    display: flex;
-    justify-content: center;
-}
-
-.line-item {
-    color: blue; 
-    cursor: pointer; 
-    list-style-type: none;
-}
-
-
-.unorder-list {
-    padding-left: 0px;
-    margin-bottom: 0px;
+.list-group-item  {
+    cursor: pointer;
 }

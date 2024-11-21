@@ -33,12 +33,18 @@
                 </div>
 
             </div>
-            <div class="mt-auto">
-                <hr class="mb-3 mx-3 border-top-1 border-none surface-border" />
+            <div class="mt-auto p-3 border-top bg-light">
+                <div class="list-group list-group-flush">
+                    <button class="list-group-item list-group-item-action" [routerLink]="['/login']" (click)="logout()"
+                         role="button">
+                        <i class="pi pi-sign-out mr-2"></i> LogOut
+                    </button>
+                </div>
+                <hr class="my-3" />
                 <a pRipple
-                    class="m-3 d-flex align-items-center cursor-pointer gap-4 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple">
+                    class="d-flex align-items-center cursor-pointer gap-3 text-dark hover:bg-light transition-duration-150 transition-colors p-ripple">
                     <p-avatar image="assets/images/profile.png" shape="circle" />
-                    <span class="font-bold">{{name}}</span>
+                    <span class="font-weight-bold">{{name}}</span>
                 </a>
             </div>
         </ng-template>

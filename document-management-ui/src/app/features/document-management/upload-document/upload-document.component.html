@@ -1,12 +1,21 @@
-<div class="rounded-0 d-flex justify-content-center">
-    <p-fileUpload name="file" url="http://localhost:3000/upload/"  (onUpload)="onUpload($event)" 
-        [multiple]="true" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt" maxFileSize="10000000">
-        <ng-template pTemplate="content">
-            <ul *ngIf="uploadedFiles.length" class="unorder-list">
-                <li *ngFor="let doc of uploadedFiles" [routerLink]="['/dashboard/docQna', doc.url]" [ngClass]="'line-item'">
-                    {{ doc.file.name }} - {{ doc.file.size }} bytes
-                </li>
-            </ul>
-        </ng-template>
-    </p-fileUpload>
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h5 class="card-title text-center">Upload Your Documents</h5>
+        <p-fileUpload name="file" url="http://localhost:3000/upload/" (onUpload)="onUpload($event)" 
+            [multiple]="true" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt" maxFileSize="10000000"
+            chooseLabel="Select Files" uploadLabel="Upload" cancelLabel="Cancel">
+            <ng-template pTemplate="content">
+                <ul *ngIf="uploadedFiles.length" class="list-group mt-3">
+                    <li *ngFor="let doc of uploadedFiles" [routerLink]="['/dashboard/docQna', doc.url]" 
+                        class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>
+                            <i class="pi pi-file" style="margin-right: 10px;"></i>
+                            {{ doc.file.name }}
+                        </span>
+                        <span class="badge badge-primary badge-pill">{{ (doc.file.size / 1024).toFixed(2) }} KB</span>
+                    </li>
+                </ul>
+            </ng-template>
+        </p-fileUpload>
+    </div>
 </div>

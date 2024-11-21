@@ -38,4 +38,8 @@ export class SidebarComponent implements OnInit {
   setActive(button: string): void {
     this.activeButton = button;
   }
+
+  logout() {
+    this.userService.logout();
+  }
 }

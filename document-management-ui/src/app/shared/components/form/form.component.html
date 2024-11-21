@@ -1,13 +1,12 @@
-<!-- dynamic-form.component.html -->
 <div class="container mt-5">
     <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white">
+        <div class="card-header bg-primary text-white text-center">
             <h3>{{ config.title }}</h3>
         </div>
-        <div class="card-body">
+        <div class="card-body p-4">
             <form [formGroup]="form" (ngSubmit)="onSubmit()">
-                <div *ngFor="let field of config.fields" class="form-group">
-                    <label [for]="field.name">{{ field.label }}</label>
+                <div *ngFor="let field of config.fields" class="form-group mb-3">
+                    <label [for]="field.name" class="form-label">{{ field.label }}</label>
                     <input [type]="field.type" [id]="field.name" class="form-control" [formControlName]="field.name"
                         [required]="field.required" />
                     <div *ngIf="form.get(field.name)?.touched && form.get(field.name)?.invalid">
