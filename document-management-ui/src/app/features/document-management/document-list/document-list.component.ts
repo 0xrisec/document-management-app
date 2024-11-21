@@ -31,4 +31,13 @@ export class DocumentListComponent implements OnInit {
       this.documentService.getDocuments();
     this.entityType = this.config.type;
   }
+
+  deleteItem(item:any) {
+    this.documentService.deleteItem(item.id)
+    // this.data = this.data.filter((val) => !this.selectedItems?.includes(val));
+  }
+
+  updateItem(item:any) {
+    this.documentService.updateItem(item)
+  }
 }

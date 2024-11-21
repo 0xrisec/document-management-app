@@ -18,7 +18,7 @@ export class DocumentSidebarComponent {
   constructor(private documentService: DocumentService, private socketService: SocketService) { 
     effect(() => {
       const docs = this.documentService.documents();
-      this.documents  = docs;
+      this.documents  = docs.reverse();
     });
   }
 

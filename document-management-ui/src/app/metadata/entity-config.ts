@@ -1,7 +1,7 @@
 export interface EntityConfig {
     type: string;
     url: string;
-    fields: { key: string; label: string }[];
+    fields: { key: string; label: string , allowToUpdate?:boolean}[];
     isChat?: boolean;
 }
 
@@ -11,9 +11,9 @@ export const DOC_CONFIGS: EntityConfig = {
     isChat: true,
     fields: [
         { key: 'fileName', label: 'Title' },
-        { key: 'author', label: 'Author' },
-        { key: 'fileType', label: 'Content Type' },
-        { key: 'createdAt', label: 'Created At' },
+        { key: 'author', label: 'Author',allowToUpdate: false  },
+        { key: 'fileType', label: 'Content Type',allowToUpdate: false  },
+        { key: 'createdAt', label: 'Created At', allowToUpdate: false },
     ],
 }
 

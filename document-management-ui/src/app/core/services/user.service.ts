@@ -55,4 +55,16 @@ export class UserService {
     loginUser(url: string, user: LoginUser): Observable<User> {
         return this.httpService.post<User>(url, user);
     }
+
+    deleteUser(userId:string){
+        const url = "http://localhost:3000/user/" + userId
+        this.httpService.delete<UserModel[]>(url).subscribe({
+            next: (res: any) => {
+                console.log(res);
+            },
+            error: (err) => {
+                console.error(err);
+            }
+        });
+    }
 }

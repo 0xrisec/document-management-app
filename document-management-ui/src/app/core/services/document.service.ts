@@ -38,4 +38,31 @@ export class DocumentService {
             }
         });
     }
+
+    deleteItem(itemId:string){
+        const url = "http://localhost:3000/document/" + itemId
+        this.httpService.delete<DocumentModel[]>(url).subscribe({
+            next: (res: any) => {
+                console.log(res);
+            },
+            error: (err) => {
+                console.error(err);
+            }
+        });
+    }
+
+    updateItem(item: DocumentModel){
+        const url = `http://localhost:3000/document/${item.id}`;
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json'
+        });
+        this.httpService.put(url, item, headers).subscribe({
+            next: (res: any) => {
+                console.log(res);
+            },
+            error: (err) => {
+                console.error(err);
+            }
+        });
+    }
 }

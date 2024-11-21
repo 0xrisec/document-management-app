@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Request, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, Request, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ObjectId } from 'mongodb';
 import { CreateDocumentDto } from 'src/dto/create-document.dto';
@@ -33,10 +33,10 @@ export class DocumentController {
     //     return this.documentsService.findOne(id);
     // }
 
-    // @Put(':id')
-    // update(@Param('id') id: string, @Body() updateDocumentDto: Partial<Document>) {
-    //     return this.documentsService.update(id, updateDocumentDto);
-    // }
+    @Put(':id')
+    update(@Param('id') id: string, @Body() updateDocumentDto: CreateDocumentDto) {
+        return this.documentsService.update(id, updateDocumentDto);
+    }
 
     @Delete(':id')
     remove(@Param('id') id: string, @Request() req) {

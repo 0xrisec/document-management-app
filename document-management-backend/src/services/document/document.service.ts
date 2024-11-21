@@ -28,13 +28,13 @@ export class DocumentService {
     //     return this.documentsRepository.findOneBy({ id: new ObjectId(id) });
     // }
 
-    // async update(id: string, updateData: Partial<Document>): Promise<Document> {
-    //     await this.documentsRepository.update(id, updateData);
-    //     return this.documentsRepository.findOneBy({ id: new ObjectId(id) });
-    // }
+    async update(id: string, updateData: Partial<Document>): Promise<Document> {
+        await this.documentRepository.update(id, updateData);
+        return this.documentRepository.findOneBy({ id: new ObjectId(id) });
+    }
 
     async remove(id: string, userId: ObjectId): Promise<void> {
-        const objectId = new ObjectId(id); // Convert string id to ObjectId
+        const objectId = new ObjectId(id);
         await this.documentRepository.delete({ id: objectId, userId });
     }
 }

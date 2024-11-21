@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import * as Redis from 'ioredis';
 
 @Injectable()
 export class AuthService {
     constructor(private jwtService: JwtService) { }
+    private tokenBlacklist: Set<string> = new Set();
+    private redisClient: Redis.Redis;
 
-    // Add your secret key here or load it from environment variables
     private readonly jwtSecret = process.env.JWT_SECRET_KEY;
 
     async login(username, userId, roles) {
@@ -23,5 +25,9 @@ export class AuthService {
         } catch (error) {
             return { value: false, error: error.message };
         }
+    }
+
+    logout(token: string): void {
+        this.tokenBlacklist.add(token);
     }
 }

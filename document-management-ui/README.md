@@ -25,3 +25,44 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+## Folder structure:
+
+src/
+│
+├── app/
+│   ├── core/                   // Core module for singleton services and core components
+│   │   ├── services/           // Core services (e.g., authentication, API services)
+│   │   ├── guards/             // Route guards
+│   │   └── interceptors/       // HTTP interceptors
+│   │
+│   ├── shared/                 // Shared module for reusable components, directives, and pipes
+│   │   ├── components/         // Shared components (e.g., buttons, modals)
+│   │   ├── directives/         // Shared directives
+│   │   └── pipes/              // Shared pipes
+│   │
+│   ├── features/               // Feature modules for each major feature
+│   │   ├── auth/               // Authentication module
+│   │   │   ├── login/          // Login component
+│   │   │   └── signup/         // Signup component
+│   │   │
+│   │   ├── user-management/    // User management module
+│   │   │   ├── user-list/      // User list component
+│   │   │   └── user-detail/    // User detail component
+│   │   │
+│   │   ├── document-management/ // Document management module
+│   │   │   ├── document-list/  // Document list component
+│   │   │   └── document-upload/ // Document upload component
+│   │   │
+│   │   ├── ingestion-management/ // Ingestion management module
+│   │   │   └── ingestion-status/ // Ingestion status component
+│   │   │
+│   │   └── qa-interface/       // Q&A interface module
+│   │       └── qa-view/        // Q&A view component
+│   │
+│   ├── app-routing.module.ts   // Main routing module
+│   ├── app.component.ts        // Root component
+│   └── app.module.ts           // Root module
+│
+└── assets/                     // Static assets (e.g., images, styles)
+

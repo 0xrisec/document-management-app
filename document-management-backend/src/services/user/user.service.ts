@@ -65,4 +65,14 @@ export class UserService {
         return this.userRepository.save(user);
     }
 
+    // async remove(id: string, userId: ObjectId): Promise<void> {
+    //     const objectId = new ObjectId(id);
+    //     await this.userRepository.delete({ id: objectId, userId });
+    // }
+
+    async remove(id: string, userId: ObjectId): Promise<void> {
+        const objectId = new ObjectId(id);
+        const filter: any = { id: objectId, userId };
+        await this.userRepository.delete(filter);
+    }
 }

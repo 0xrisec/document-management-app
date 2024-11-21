@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
@@ -47,6 +47,8 @@ export class CustomTableComponent implements OnInit {
   @Input() entityType!: string;
   @Input() data!: any[];
   @Input() config: any;
+  @Output() deleteItemEvent:EventEmitter<any> = new EventEmitter();
+  @Output() updateItem:EventEmitter<any> = new EventEmitter();
   isChat: boolean = false;
   selectedItems: any[] | null = null;
   dialogVisible: boolean = false;
@@ -94,6 +96,7 @@ export class CustomTableComponent implements OnInit {
         header: 'Confirm',
         icon: 'pi pi-exclamation-triangle',
         accept: () => {
+          this.deleteItemEvent.emit(item)
           this.data = this.data.filter((val) => val.id !== item.id);
           this.currentItem = {};
           this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Item Deleted', life: 3000 });
@@ -110,6 +113,7 @@ export class CustomTableComponent implements OnInit {
     this.submitted = true;
 
     if (this.config && this.currentItem[this.config?.fields[0].key]?.trim()) {
+      this.updateItem.emit(this.currentItem);
       if (this.currentItem.id) {
         this.data[this.findIndexById(this.currentItem.id)] = this.currentItem;
         this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Item Updated', life: 3000 });

@@ -27,4 +27,8 @@ export class UserListComponent {
     this.userService.getUsers();
     this.entityType = this.config.type;
   }
+
+  deleteItem(user:any){
+    this.userService.deleteUser(user.id)
+  }
 }
