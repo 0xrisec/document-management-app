@@ -56,3 +56,7 @@ body {
         font-size: 0.9rem;
     }
 }
+
+.p-component .p-dropdown-items {
+    padding-left: 0px !important;
+}

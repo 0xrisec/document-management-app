@@ -1,5 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
+import { ObjectId } from 'mongodb';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { UserService } from '../user/user.service';
 
@@ -15,11 +16,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   async validate(payload: any) {
     // Extract the username and roles from the JWT payload
-    const user = await this.userService.findByUsername(payload.username);
+    const id = new ObjectId(payload.sub)
+    const user = await this.userService.findById(id);
     if (!user) {
       throw new UnauthorizedException('User not found');
     }
 
-    return { userId: user.id, username: user.username, roles: user.roles, name: user.name }; // Attach user roles to request object
+    return { userId: user._id, username: user.username, roles: user.roles, name: user.name }; // Attach user roles to request object
   }
 }

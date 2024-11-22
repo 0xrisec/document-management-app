@@ -33,7 +33,8 @@ export class LoginComponent {
             this.router.navigate(['/dashboard'])
           },
           error: (err) => {
-            this.messageService.add({ severity: 'error', summary: 'Success', detail: err.error.message, life: 3000  });
+            const errMsg: string =  ( err.error.message) ?  err.error.message : "Internal server error. Please try again later."
+            this.messageService.add({ severity: 'error', summary: 'Error', detail: errMsg, life: 3000  });
           }
         }
       )

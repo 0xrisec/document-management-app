@@ -52,7 +52,13 @@
         <ng-template pTemplate="content">
             <div *ngFor="let field of config?.fields" class="field">
                 <label for="{{field.key}}">{{field.label}}</label>
-                <input type="text" pInputText id="{{field.key}}" [(ngModel)]="currentItem[field.key]"
+                <ng-container *ngIf="field.key === 'roles'">
+                    <p-dropdown *ngIf="isAdmin" panelStyleClass="table-dropdown" appendTo="body" [options]="rolesOptions" [(ngModel)]="currentItem[field.key]" 
+                        [disabled]="!isAdmin" placeholder="Select a Role"></p-dropdown>
+                    <input *ngIf="!isAdmin" type="text" pInputText id="{{field.key}}" [(ngModel)]="currentItem[field.key]"
+                        [readonly]="true">
+                </ng-container>
+                <input *ngIf="field.key !== 'roles'" type="text" pInputText id="{{field.key}}" [(ngModel)]="currentItem[field.key]"
                     [readonly]="field.allowToUpdate === false" required>
                 <small class="p-error" *ngIf="submitted && !currentItem[field.key]">
                     {{field.label}} is required.

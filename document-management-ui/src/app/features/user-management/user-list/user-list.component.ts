@@ -31,4 +31,8 @@ export class UserListComponent {
   deleteItem(user:any){
     this.userService.deleteUser(user.id)
   }
+
+  updateUser(user:any){
+    this.userService.updateUser(user)
+  }
 }

@@ -54,6 +54,16 @@ export class CustomTableComponent implements OnInit {
   dialogVisible: boolean = false;
   currentItem: any;
   submitted: boolean = false;
+  rolesOptions = [
+      { label: 'User', value: 'user' },
+      { label: 'Admin', value: 'admin' }
+  ];
+
+  isAdmin: boolean = this.checkIfAdmin();
+
+  checkIfAdmin(): boolean {
+      return true; 
+  }
 
   get globalFilterFields(): string[] {
     return this.config?.fields.map((field: any) => field.key) || [];

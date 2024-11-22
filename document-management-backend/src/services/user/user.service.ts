@@ -1,9 +1,10 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 import { User } from 'src/entities/user.entity';
 import { Role } from 'src/enums/roles.enum';
+import { UpdateUserDto } from 'src/dto/update-user.dto';
+import { Repository } from 'typeorm';
 import { ObjectId } from 'mongodb';
 
 @Injectable()
@@ -56,23 +57,30 @@ export class UserService {
         return user;
     }
 
-    async updateUserRole(username: string, roles: Role[]): Promise<User> {
-        const user = await this.userRepository.findOne({ where: { username } });
+    async findById(id: ObjectId): Promise<User> {
+        const user = await this.userRepository.findOne({
+            where: { _id: id }
+        });
+
         if (!user) {
-            throw new Error('User not found');
+            throw new NotFoundException('User not found');
         }
-        user.roles = roles;
-        return this.userRepository.save(user);
+
+        return user;
     }
 
-    // async remove(id: string, userId: ObjectId): Promise<void> {
-    //     const objectId = new ObjectId(id);
-    //     await this.userRepository.delete({ id: objectId, userId });
-    // }
+    async updateUser(id: ObjectId, updateUserDto: UpdateUserDto): Promise<void> {
+        const user = await this.userRepository.findOne({ where: { _id: id } });
+        if (!user) {
+            throw new NotFoundException(`User with id ${id} not found`);
+        }
+        Object.assign(user, updateUserDto);
+        this.userRepository.save(user);
+    }
 
     async remove(id: string, userId: ObjectId): Promise<void> {
         const objectId = new ObjectId(id);
-        const filter: any = { id: objectId, userId };
+        const filter: any = { _id: objectId, userId };
         await this.userRepository.delete(filter);
     }
 }

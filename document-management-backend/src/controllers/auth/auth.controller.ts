@@ -20,7 +20,7 @@ export class AuthController {
         if (!user) {
             throw new UnauthorizedException('Invalid credentials');
         }
-        return this.authService.login(user.username, user.id, user.roles);
+        return this.authService.login(user.username, user._id, user.roles);
     }
 
     @Post('validate-token')

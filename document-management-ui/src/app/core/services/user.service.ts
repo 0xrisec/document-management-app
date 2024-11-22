@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { HttpService } from './http.service';
 import { CurrentUser, LoginUser, User, UserModel } from '../../models/user.model';
@@ -59,6 +59,21 @@ export class UserService {
     deleteUser(userId:string){
         const url = "http://localhost:3000/user/" + userId
         this.httpService.delete<UserModel[]>(url).subscribe({
+            next: (res: any) => {
+                console.log(res);
+            },
+            error: (err) => {
+                console.error(err);
+            }
+        });
+    }
+
+    updateUser(item: UserModel) {
+        const url = `http://localhost:3000/user/${item.id}`;
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json'
+        });
+        this.httpService.put(url, item, headers).subscribe({
             next: (res: any) => {
                 console.log(res);
             },
