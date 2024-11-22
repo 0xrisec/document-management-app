@@ -40,8 +40,9 @@
     color: red;
 }
 
-.chat-header {
+.chat-header, .send-msg {
     background: #5472d4;
+    color: white;
 }
 
 .chat-footer {

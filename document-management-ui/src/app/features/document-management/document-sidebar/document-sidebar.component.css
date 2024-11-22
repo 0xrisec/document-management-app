@@ -22,8 +22,8 @@
 }
 
 .list-group-item.selected {
-    background-color: #007bff; /* Change this color to your desired selected color */
-    color: white; /* Optional: change text color for better contrast */
+    background-color: #5472d4; 
+    color: white; 
 }
 
 @media (max-width: 768px) {
