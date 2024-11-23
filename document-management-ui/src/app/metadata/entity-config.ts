@@ -4,6 +4,10 @@ export interface EntityConfig {
     isChat?: boolean;
 }
 
+export interface SidebarConfig {
+    buttons: { key: string; label: string; icon: string; route: string; roles?: string[] }[];
+}
+
 export const DOC_CONFIGS: EntityConfig = {
     type: 'documents',
     isChat: true,
@@ -14,6 +18,14 @@ export const DOC_CONFIGS: EntityConfig = {
         { key: 'createdAt', label: 'Created At', allowToUpdate: false },
     ],
 }
+
+export const SIDEBAR_CONFIG: SidebarConfig = {
+    buttons: [
+        { key: 'upload', label: 'Upload / Import', icon: 'pi pi-plus-circle', route: '/dashboard/upload' },
+        { key: 'documents', label: 'Documents', icon: 'pi pi-book', route: '/dashboard/documents' },
+        { key: 'users', label: 'Users', icon: 'pi pi-chart-bar', route: '/dashboard/users', roles: ['admin'] },
+    ],
+};
 
 export const USER_CONFIGS: EntityConfig = {
     type: 'users',

@@ -12,34 +12,21 @@
                 <div class="mt-auto">
                     <div class="petal-actions">
                         <div class="list-group">
-                            <button class="list-group-item list-group-item-action" [routerLink]="['/dashboard/upload']"
-                                [ngClass]="{'active': activeButton === 'upload'}" (click)="setActive('upload')"
-                                tabindex="0" role="button">
-                                <i class="pi pi-plus-circle"></i> Upload / Import
-                            </button>
-                            <button class="list-group-item list-group-item-action"
-                                [routerLink]="['/dashboard/documents']"
-                                [ngClass]="{'active': activeButton === 'documents'}" (click)="setActive('documents')"
-                                tabindex="1" role="button">
-                                <i class="pi pi-book"></i> Documents
-                            </button>
-                            @if(roles?.includes('admin')) {
-                                <button class="list-group-item list-group-item-action" [routerLink]="['/dashboard/users']"
-                                [ngClass]="{'active': activeButton === 'users'}" (click)="setActive('users')"
-                                tabindex="2" role="button">
-                                <i class="pi pi-chart-bar"></i> Users
+                            <ng-container *ngFor="let button of sidebarConfig.buttons">
+                                <button *ngIf="isButtonVisible(button)" class="list-group-item list-group-item-action"
+                                    [routerLink]="[button.route]" [ngClass]="{'active': activeButton === button.key}"
+                                    (click)="setActive(button.key)" tabindex="0" role="button">
+                                    <i [class]="button.icon"></i> {{button.label}}
                                 </button>
-                            }
-                           
+                            </ng-container>
                         </div>
                     </div>
                 </div>
-
             </div>
             <div class="mt-auto p-3 border-top bg-light">
                 <div class="list-group list-group-flush">
                     <button class="list-group-item list-group-item-action" [routerLink]="['/login']" (click)="logout()"
-                         role="button">
+                        role="button">
                         <i class="pi pi-sign-out mr-2"></i> LogOut
                     </button>
                 </div>
