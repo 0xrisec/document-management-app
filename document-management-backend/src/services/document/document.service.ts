@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ObjectId } from 'mongodb';
 import { CreateDocumentDto } from 'src/dto/create-document.dto';
+import { UpdateDocumentDto } from 'src/dto/update-document.dto';
 import { Document } from 'src/entities/document.entity';
 import { MongoRepository } from 'typeorm';
 
@@ -28,13 +29,19 @@ export class DocumentService {
     //     return this.documentsRepository.findOneBy({ id: new ObjectId(id) });
     // }
 
-    async update(id: string, updateData: Partial<Document>): Promise<Document> {
-        await this.documentRepository.update(id, updateData);
-        return this.documentRepository.findOneBy({ id: new ObjectId(id) });
+    async update(_id: string, updateData: Partial<UpdateDocumentDto>): Promise<boolean> {
+        const result = await this.documentRepository.update(new ObjectId(_id), updateData);
+        console.log(result);
+        return true;
     }
 
     async remove(id: string, userId: ObjectId): Promise<void> {
         const objectId = new ObjectId(id);
         await this.documentRepository.delete({ id: objectId, userId });
+    }
+
+    async removeMultiple(ids: string[], userId: ObjectId): Promise<void> {
+        const objectIds = ids.map(id => new ObjectId(id));
+        await this.documentRepository.deleteMany({ _id: { $in: objectIds }, userId });
     }
 }

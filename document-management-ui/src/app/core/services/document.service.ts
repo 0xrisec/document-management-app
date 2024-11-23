@@ -12,13 +12,13 @@ export class DocumentService {
     public documents = signal<Document[]>([]);
     constructor(private httpService: HttpService) { }
 
-    uploadFile(url:string, file: File): Observable<any> {
+    uploadFile(url: string, file: File): Observable<any> {
         const formData: FormData = new FormData();
         formData.append('file', file, file.name);
         return this.httpService.post(url, formData);
     }
 
-    createDocument(url:string, documentData:any):Observable<any> {
+    createDocument(url: string, documentData: any): Observable<any> {
         const headers = new HttpHeaders({
             'Content-Type': 'application/json'
         });
@@ -29,7 +29,7 @@ export class DocumentService {
         const url = "http://localhost:3000/document/"
         this.httpService.get<DocumentModel[]>(url).subscribe({
             next: (res: any) => {
-                this.documents.set(res.map((doc:any) => new DocumentModel(
+                this.documents.set(res.map((doc: any) => new DocumentModel(
                     doc.id, doc.fileName, doc.contentUrl, doc.fileType, doc.author, doc.createdAt, doc.userId
                 )));
             },
@@ -39,7 +39,7 @@ export class DocumentService {
         });
     }
 
-    deleteItem(itemId:string){
+    deleteItem(itemId: string) {
         const url = "http://localhost:3000/document/" + itemId
         this.httpService.delete<DocumentModel[]>(url).subscribe({
             next: (res: any) => {
@@ -51,7 +51,7 @@ export class DocumentService {
         });
     }
 
-    updateItem(item: DocumentModel){
+    updateItem(item: DocumentModel) {
         const url = `http://localhost:3000/document/${item.id}`;
         const headers = new HttpHeaders({
             'Content-Type': 'application/json'
@@ -64,5 +64,13 @@ export class DocumentService {
                 console.error(err);
             }
         });
+    }
+
+    deleteMultipleItems(itemIds: string[]): Observable<any> {
+        const url = "http://localhost:3000/document/delete";
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json'
+        });
+        return this.httpService.post(url, itemIds, headers);
     }
 }

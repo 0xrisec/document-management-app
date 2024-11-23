@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import { UserService } from '../../../core/services/user.service';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 
@@ -7,6 +8,7 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
   selector: 'app-dashboard',
   standalone: true,
   imports: [SidebarComponent, RouterOutlet],
+  providers: [UserService, MessageService],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })

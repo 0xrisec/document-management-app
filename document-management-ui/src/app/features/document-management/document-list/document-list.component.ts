@@ -27,17 +27,31 @@ export class DocumentListComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(!this.documentService.documents()?.length)
+    if (!this.documentService.documents()?.length)
       this.documentService.getDocuments();
     this.entityType = this.config.type;
   }
 
-  deleteItem(item:any) {
+  deleteItem(item: any) {
     this.documentService.deleteItem(item.id)
     // this.data = this.data.filter((val) => !this.selectedItems?.includes(val));
   }
 
-  updateItem(item:any) {
+  updateItem(item: any) {
     this.documentService.updateItem(item)
+  }
+
+  deleteMultipleItems(selectedItems: any) {
+    const itemIds = selectedItems.map((item: any) => item.id);
+    this.documentService.deleteMultipleItems(itemIds).subscribe({
+      next: () => {
+        this.data = this.data.filter((val) => !selectedItems.includes(val.id));
+        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Items Deleted', life: 3000 });
+      },
+      error: (err) => {
+        console.error(err);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete items', life: 3000 });
+      }
+    });
   }
 }

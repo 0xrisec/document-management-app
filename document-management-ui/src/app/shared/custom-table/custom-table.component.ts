@@ -47,22 +47,23 @@ export class CustomTableComponent implements OnInit {
   @Input() entityType!: string;
   @Input() data!: any[];
   @Input() config: any;
-  @Output() deleteItemEvent:EventEmitter<any> = new EventEmitter();
-  @Output() updateItem:EventEmitter<any> = new EventEmitter();
+  @Output() deleteItemEvent: EventEmitter<any> = new EventEmitter();
+  @Output() deleteMultipleItems: EventEmitter<any> = new EventEmitter();
+  @Output() updateItem: EventEmitter<any> = new EventEmitter();
   isChat: boolean = false;
   selectedItems: any[] | null = null;
   dialogVisible: boolean = false;
   currentItem: any;
   submitted: boolean = false;
   rolesOptions = [
-      { label: 'User', value: 'user' },
-      { label: 'Admin', value: 'admin' }
+    { label: 'User', value: 'user' },
+    { label: 'Admin', value: 'admin' }
   ];
 
   isAdmin: boolean = this.checkIfAdmin();
 
   checkIfAdmin(): boolean {
-      return true; 
+    return true;
   }
 
   get globalFilterFields(): string[] {
@@ -87,9 +88,8 @@ export class CustomTableComponent implements OnInit {
       header: 'Confirm',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
-        this.data = this.data.filter((val) => !this.selectedItems?.includes(val));
-        this.selectedItems = null;
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Items Deleted', life: 3000 });
+        this.deleteMultipleItems.emit(this.selectedItems);
+        this.selectedItems = [];
       }
     });
   }
