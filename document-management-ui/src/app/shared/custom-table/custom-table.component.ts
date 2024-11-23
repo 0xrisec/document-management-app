@@ -40,7 +40,7 @@ import { ToolbarModule } from 'primeng/toolbar';
   standalone: true,
   templateUrl: './custom-table.component.html',
   styleUrls: ['./custom-table.component.css'],
-  providers: [MessageService, ConfirmationService],
+  providers: [ConfirmationService],
 })
 
 export class CustomTableComponent implements OnInit {

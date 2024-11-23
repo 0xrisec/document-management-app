@@ -7,6 +7,7 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpReqInterceptor } from './core/interceptors/http.interceptor';
+import { UserService } from './core/services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,8 @@ import { HttpReqInterceptor } from './core/interceptors/http.interceptor';
   ],
   providers: [
     SocketService,
+    MessageService,
+    UserService,
     MessageService,
     { provide: HTTP_INTERCEPTORS, useClass: HttpReqInterceptor, multi: true }
   ],

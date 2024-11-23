@@ -20,11 +20,13 @@ export class SidebarComponent implements OnInit {
   sidebarVisible: boolean = false;
   activeButton: string = 'upload'; // Default active button
   name: string = '';
+  roles!: string[] | undefined;
 
   constructor(private userService: UserService) {
     effect(() => {
       const currentUser = this.userService._currentUser();
       this.name = currentUser?.name || '';
+      this.roles = currentUser?.roles;
     });
   }
 

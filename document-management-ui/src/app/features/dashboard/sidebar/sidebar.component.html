@@ -23,11 +23,14 @@
                                 tabindex="1" role="button">
                                 <i class="pi pi-book"></i> Documents
                             </button>
-                            <button class="list-group-item list-group-item-action" [routerLink]="['/dashboard/users']"
+                            @if(roles?.includes('admin')) {
+                                <button class="list-group-item list-group-item-action" [routerLink]="['/dashboard/users']"
                                 [ngClass]="{'active': activeButton === 'users'}" (click)="setActive('users')"
                                 tabindex="2" role="button">
                                 <i class="pi pi-chart-bar"></i> Users
-                            </button>
+                                </button>
+                            }
+                           
                         </div>
                     </div>
                 </div>

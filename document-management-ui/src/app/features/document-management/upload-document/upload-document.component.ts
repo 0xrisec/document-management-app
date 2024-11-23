@@ -15,7 +15,7 @@ import { RouterModule } from '@angular/router';
   imports: [RouterModule, FileUploadModule, ButtonModule, BadgeModule, ProgressBarModule, ToastModule, CommonModule],
   templateUrl: './upload-document.component.html',
   styleUrl: './upload-document.component.css',
-  providers: [MessageService]
+  providers: []
 })
 export class UploadDocumentComponent {
   uploadedFiles: any[] = [];

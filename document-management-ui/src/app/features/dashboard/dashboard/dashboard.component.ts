@@ -8,7 +8,7 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
   selector: 'app-dashboard',
   standalone: true,
   imports: [SidebarComponent, RouterOutlet],
-  providers: [UserService, MessageService],
+  providers: [],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })

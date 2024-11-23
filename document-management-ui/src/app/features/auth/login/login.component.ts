@@ -10,7 +10,8 @@ import { FormComponent } from '../../../shared/components/form/form.component';
   standalone: true,
   imports: [FormComponent],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
+  providers: []
 })
 export class LoginComponent {
 

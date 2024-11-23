@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Request, UseGuards, Get, Param, Patch, Delete, BadRequestException, Put } from '@nestjs/common';
+import { Controller, Post, Body, Request, UseGuards, Get, Param, Patch, Delete, BadRequestException, Put, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from '@nestjs/passport';
 import { ObjectId } from 'mongodb';
@@ -31,27 +31,31 @@ export class UserController {
   async updateUser(
     @Body() updateUserDto: UpdateUserDto,
     @Request() req
-  ): Promise<void> {
+  ): Promise<any> {
     const userId = req.user.userId;
     if (!userId) {
-        throw new BadRequestException('User ID is required');
+      throw new BadRequestException('User ID is required');
     }
-    this.userService.updateUser(userId, updateUserDto);
+    const updateResult = await this.userService.updateUser(userId, { "name": updateUserDto.name, "email": updateUserDto.email, roles: updateUserDto.roles });
+    if (!updateResult) {
+      throw new NotFoundException('Document not found');
+    }
+    return { message: 'Document updated successfully' };
   }
 
   @Delete(':id')
   @Roles(Role.Admin)
   @UseGuards(RolesGuard)
   remove(@Param('id') id: string, @Request() req) {
-      const userId = req.user.userId;
-      if (!userId) {
-          throw new BadRequestException('User ID is required');
-      }
+    const userId = req.user.userId;
+    if (!userId) {
+      throw new BadRequestException('User ID is required');
+    }
 
-      if (!id || !ObjectId.isValid(id)) {
-          throw new BadRequestException('Invalid document ID');
-      }
+    if (!id || !ObjectId.isValid(id)) {
+      throw new BadRequestException('Invalid document ID');
+    }
 
-      return this.userService.remove(id, userId);
+    return this.userService.remove(id, userId);
   }
 }

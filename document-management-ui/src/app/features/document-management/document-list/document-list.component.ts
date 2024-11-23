@@ -2,12 +2,14 @@ import { Component, effect, Input, OnInit } from '@angular/core';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { DocumentService } from '../../../core/services/document.service';
 import { DOC_CONFIGS } from '../../../metadata/entity-config';
+import { NoDataComponent } from '../../../shared/components/no-data/no-data.component';
 import { CustomTableComponent } from '../../../shared/custom-table/custom-table.component';
 
 @Component({
   selector: 'app-document-list',
   imports: [
-    CustomTableComponent
+    CustomTableComponent,
+    NoDataComponent
   ],
   standalone: true,
   templateUrl: './document-list.component.html',
@@ -34,7 +36,6 @@ export class DocumentListComponent implements OnInit {
 
   deleteItem(item: any) {
     this.documentService.deleteItem(item.id)
-    // this.data = this.data.filter((val) => !this.selectedItems?.includes(val));
   }
 
   updateItem(item: any) {

@@ -69,13 +69,14 @@ export class UserService {
         return user;
     }
 
-    async updateUser(id: ObjectId, updateUserDto: UpdateUserDto): Promise<void> {
+    async updateUser(id: ObjectId, updateUserDto: UpdateUserDto): Promise<boolean> {
         const user = await this.userRepository.findOne({ where: { _id: id } });
         if (!user) {
             throw new NotFoundException(`User with id ${id} not found`);
         }
         Object.assign(user, updateUserDto);
         this.userRepository.save(user);
+        return true;
     }
 
     async remove(id: string, userId: ObjectId): Promise<void> {
