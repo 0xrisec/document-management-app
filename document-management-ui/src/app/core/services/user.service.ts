@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { HttpService } from './http.service';
 import { CurrentUser, LoginUser, User, UserModel } from '../../models/user.model';
 import { MessageService } from 'primeng/api';
+import { ApiEndpointsService } from './api-endpoints.service';
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +13,11 @@ export class UserService {
     public _currentUser = signal<CurrentUser | null>(null);
     public _allUsers = signal<UserModel[]>([]);
 
-    constructor(private httpService: HttpService, private messageService: MessageService) { }
+    constructor(
+        private httpService: HttpService,
+        private messageService: MessageService,
+        private apiEndpoints: ApiEndpointsService
+    ) { }
 
     createUser(url: string, user: User): Observable<User> {
         return this.httpService.post<User>(url, user);
@@ -33,7 +38,7 @@ export class UserService {
     }
 
     getUsers(): void {
-        const url = "http://localhost:3000/user/"
+        const url = this.apiEndpoints.getEndpoint(this.apiEndpoints.user.base);
         this.httpService.get<UserModel[]>(url).subscribe({
             next: (res: UserModel[]) => {
                 // Map the response to UserModel instances
@@ -58,7 +63,7 @@ export class UserService {
     }
 
     deleteUser(userId: string) {
-        const url = "http://localhost:3000/user/" + userId
+        const url = `${this.apiEndpoints.getEndpoint(this.apiEndpoints.user.base)}/${userId}`;
         this.httpService.delete<UserModel[]>(url).subscribe({
             next: (res: any) => {
                 this._allUsers.set(this._allUsers().filter(user => user.id !== userId));
@@ -72,7 +77,7 @@ export class UserService {
 
     
     deleteUsers(userIds: string[]) {
-        const url = "http://localhost:3000/user/delete";
+        const url = this.apiEndpoints.getEndpoint(this.apiEndpoints.user.delete);
         const headers = new HttpHeaders({
             'Content-Type': 'application/json'
         });
@@ -88,7 +93,7 @@ export class UserService {
     }
 
     updateUser(item: UserModel) {
-        const url = `http://localhost:3000/user/${item.id}`;
+        const url = `${this.apiEndpoints.getEndpoint(this.apiEndpoints.user.base)}/${item.id}`;
         const headers = new HttpHeaders({
             'Content-Type': 'application/json'
         });

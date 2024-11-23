@@ -8,6 +8,7 @@ import { MessageService } from 'primeng/api';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpReqInterceptor } from './core/interceptors/http.interceptor';
 import { UserService } from './core/services/user.service';
+import { ApiEndpointsService } from './core/services/api-endpoints.service';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +24,7 @@ import { UserService } from './core/services/user.service';
     MessageService,
     UserService,
     MessageService,
+    ApiEndpointsService,
     { provide: HTTP_INTERCEPTORS, useClass: HttpReqInterceptor, multi: true }
   ],
   templateUrl: './app.component.html',

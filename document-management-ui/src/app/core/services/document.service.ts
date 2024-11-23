@@ -5,13 +5,18 @@ import { HttpService } from './http.service';
 import { Document } from '../../interfaces/document.interface';
 import { DocumentModel } from '../../models/doc.model';
 import { MessageService } from 'primeng/api';
+import { ApiEndpointsService } from './api-endpoints.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class DocumentService {
     public documents = signal<Document[]>([]);
-    constructor(private httpService: HttpService, private messageService: MessageService) { }
+    constructor(
+        private httpService: HttpService,
+        private messageService: MessageService,
+        private apiEndpoints: ApiEndpointsService
+    ) { }
 
     uploadFile(url: string, file: File): Observable<any> {
         const formData: FormData = new FormData();
@@ -27,7 +32,7 @@ export class DocumentService {
     }
 
     getDocuments() {
-        const url = "http://localhost:3000/document/"
+        const url = this.apiEndpoints.getEndpoint(this.apiEndpoints.document.base);
         this.httpService.get<DocumentModel[]>(url).subscribe({
             next: (res: any) => {
                 this.documents.set(res.map((doc: any) => new DocumentModel(
@@ -41,7 +46,7 @@ export class DocumentService {
     }
 
     updateItem(item: DocumentModel) {
-        const url = `http://localhost:3000/document/${item.id}`;
+        const url = `${this.apiEndpoints.getEndpoint(this.apiEndpoints.document.base)}/${item.id}`;
         const headers = new HttpHeaders({
             'Content-Type': 'application/json'
         });
@@ -56,7 +61,7 @@ export class DocumentService {
     }
 
     deleteItem(itemId: string) {
-        const url = "http://localhost:3000/document/" + itemId
+        const url = `${this.apiEndpoints.getEndpoint(this.apiEndpoints.document.base)}/${itemId}`;
         this.httpService.delete<DocumentModel[]>(url).subscribe({
             next: (res: any) => {
                 this.documents.set(this.documents().filter(doc => doc.id !== itemId));
@@ -69,13 +74,13 @@ export class DocumentService {
     }
 
     deleteMultipleItems(itemIds: string[]) {
-        const url = "http://localhost:3000/document/delete";
+        const url = `${this.apiEndpoints.getEndpoint(this.apiEndpoints.document.delete)}`;
         const headers = new HttpHeaders({
             'Content-Type': 'application/json'
         });
         this.httpService.post(url, itemIds, headers).subscribe({
             next: () => {
-                this.documents.set(this.documents().filter((doc:any) => !itemIds.includes(doc.id)));
+                this.documents.set(this.documents().filter((doc: any) => !itemIds.includes(doc.id)));
                 this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Documents Deleted', life: 3000 });
             },
             error: (err) => {

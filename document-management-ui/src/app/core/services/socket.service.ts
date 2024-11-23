@@ -3,16 +3,21 @@ import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Socket, SocketIoConfig } from 'ngx-socket-io';
 import { WrappedSocket } from 'ngx-socket-io/src/socket-io.service';
 import { Observable, of } from 'rxjs';
+import { ApiEndpointsService } from './api-endpoints.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class SocketService {
     private socket!: WrappedSocket;
-    constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    constructor(
+        @Inject(PLATFORM_ID) private platformId: Object,
+        private apiEndpoints: ApiEndpointsService
+    ) {
+        const url = this.apiEndpoints.getSocketEndpoint('');
         if (isPlatformBrowser(this.platformId)) {
             // Socket initialization logic for the browser
-            const config: SocketIoConfig = { url: 'http://localhost:8080', options: { autoConnect: false } };
+            const config: SocketIoConfig = { url: url, options: { autoConnect: false } };
             this.socket = new Socket(config);
         }
     }
@@ -43,22 +48,6 @@ export class SocketService {
         this.socket.on('disconnect', () => {
             console.log('Disconnected from Socket.IO server');
         });
-
-        // this.onEvent("").subscribe({
-
-        //     next: (dr: DownloadRequest) => {
-        //     },
-        //     error: (err: any) => {
-
-        //         console.error('Error during Socket.IO connection:', err);
-        //     },
-
-        //     complete: () => {
-
-        //         console.log("completed")
-        //     }
-        // })
-
     }
 
     // Method to send a question to the server

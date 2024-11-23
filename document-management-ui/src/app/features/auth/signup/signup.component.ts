@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { ApiEndpointsService } from '../../../core/services/api-endpoints.service';
 import { UserService } from '../../../core/services/user.service';
 import { ValidatorFn } from '../../../interfaces/validator.interface';
 import { User } from '../../../models/user.model';
@@ -19,7 +20,8 @@ export class SignupComponent {
   constructor(
     private userService: UserService,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private apiEndpoints: ApiEndpointsService
   ) { }
 
   onSubmit(formData: any): void {
@@ -29,8 +31,8 @@ export class SignupComponent {
       email: formData.email,
       password: formData.password
     };
-
-    this.userService.createUser('http://localhost:3000/auth/signup', newUser).subscribe(
+    const url = this.apiEndpoints.getEndpoint(this.apiEndpoints.auth.signup);
+    this.userService.createUser(url, newUser).subscribe(
       {
         next: (res) => {
           console.log(res);

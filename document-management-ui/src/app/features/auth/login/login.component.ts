@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
+import { ApiEndpointsService } from '../../../core/services/api-endpoints.service';
 import { UserService } from '../../../core/services/user.service';
 import { FormComponent } from '../../../shared/components/form/form.component';
 
@@ -18,7 +19,8 @@ export class LoginComponent {
   constructor(
     private userService: UserService,
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private apiEndpoints: ApiEndpointsService
   ) { }
 
   onSubmit(formData: any): void {
@@ -26,8 +28,9 @@ export class LoginComponent {
         email: formData.email,
         password: formData.password
       };
-  
-      this.userService.loginUser('http://localhost:3000/auth/login', user).subscribe(
+      const url = this.apiEndpoints.getEndpoint(this.apiEndpoints.auth.login);
+      
+      this.userService.loginUser(url, user).subscribe(
         {
           next: (res:any) => {
             localStorage.setItem('accessToken', res.access_token);
