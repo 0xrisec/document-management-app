@@ -29,8 +29,14 @@ export class UserListComponent {
     this.entityType = this.config.type;
   }
 
-  deleteItem(user:any){
+  deleteUser(user:any){
     this.userService.deleteUser(user.id)
+  }
+
+  // delete multiple users
+  deleteUsers(users: any) {
+    const userIds = users.map((user: any) => user.id);
+    this.userService.deleteUsers(userIds);
   }
 
   updateUser(user:any){

@@ -38,9 +38,9 @@ export class UserController {
     }
     const updateResult = await this.userService.updateUser(userId, { "name": updateUserDto.name, "email": updateUserDto.email, roles: updateUserDto.roles });
     if (!updateResult) {
-      throw new NotFoundException('Document not found');
+      throw new NotFoundException('User not found');
     }
-    return { message: 'Document updated successfully' };
+    return { message: 'User updated successfully' };
   }
 
   @Delete(':id')
@@ -53,9 +53,23 @@ export class UserController {
     }
 
     if (!id || !ObjectId.isValid(id)) {
-      throw new BadRequestException('Invalid document ID');
+      throw new BadRequestException('Invalid User ID');
     }
 
     return this.userService.remove(id, userId);
+  }
+
+  @Post('delete')
+  @Roles(Role.Admin)
+  @UseGuards(RolesGuard)
+  async removeMultiple(@Body() ids: string[], @Request() req) {
+    // Validate each document ID
+    for (const id of ids) {
+      if (!ObjectId.isValid(id)) {
+        throw new BadRequestException(`Invalid document ID: ${id}`);
+      }
+    }
+
+    return this.userService.deleteUsers(ids);
   }
 }

@@ -4,7 +4,7 @@ import * as bcrypt from 'bcryptjs';
 import { User } from 'src/entities/user.entity';
 import { Role } from 'src/enums/roles.enum';
 import { UpdateUserDto } from 'src/dto/update-user.dto';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { ObjectId } from 'mongodb';
 
 @Injectable()
@@ -83,5 +83,10 @@ export class UserService {
         const objectId = new ObjectId(id);
         const filter: any = { _id: objectId, userId };
         await this.userRepository.delete(filter);
+    }
+
+    async deleteUsers(ids: string[]): Promise<void> {
+        const objectIds = ids.map(id => new ObjectId(id));
+        await this.userRepository.delete({ _id: In(objectIds) });
     }
 }

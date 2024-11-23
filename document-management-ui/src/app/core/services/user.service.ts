@@ -37,8 +37,8 @@ export class UserService {
         this.httpService.get<UserModel[]>(url).subscribe({
             next: (res: UserModel[]) => {
                 // Map the response to UserModel instances
-                const users = res.map(user => new UserModel(
-                    user.id,
+                const users = res.map((user:any) => new UserModel(
+                    user._id,
                     user.username,
                     user.name,
                     user.email,
@@ -61,10 +61,28 @@ export class UserService {
         const url = "http://localhost:3000/user/" + userId
         this.httpService.delete<UserModel[]>(url).subscribe({
             next: (res: any) => {
-                console.log(res);
+                this._allUsers.set(this._allUsers().filter(user => user.id !== userId));
+                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'User Deleted', life: 3000 });
             },
             error: (err) => {
                 this.messageService.add({ severity: 'error', summary: 'Error', detail: err.error.message, life: 3000 });
+            }
+        });
+    }
+
+    
+    deleteUsers(userIds: string[]) {
+        const url = "http://localhost:3000/user/delete";
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json'
+        });
+        this.httpService.post(url, userIds, headers).subscribe({
+            next: () => {
+                this._allUsers.set(this._allUsers().filter((user:any) => !userIds.includes(user.id)));
+                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Users Deleted', life: 3000 });
+            },
+            error: (err) => {
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete Users', life: 3000 });
             }
         });
     }
