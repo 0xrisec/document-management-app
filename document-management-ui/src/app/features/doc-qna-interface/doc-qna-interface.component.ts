@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { DocumentService } from '../../core/services/document.service';
 import { DocumentSidebarComponent } from '../document-management/document-sidebar/document-sidebar.component';
 import { DocumentViewerComponent } from '../document-management/document-viewer/document-viewer.component';
 import { QnaInterfaceComponent } from '../qna-interface/qna-interface.component';
@@ -9,7 +11,8 @@ import { QnaInterfaceComponent } from '../qna-interface/qna-interface.component'
   standalone: true,
   imports: [DocumentViewerComponent, QnaInterfaceComponent, DocumentSidebarComponent],
   templateUrl: './doc-qna-interface.component.html',
-  styleUrl: './doc-qna-interface.component.css'
+  styleUrl: './doc-qna-interface.component.css',
+  providers: [DocumentService, MessageService]
 })
 export class DocQnaInterfaceComponent implements OnInit  {
   fileUrl: string | null = null;

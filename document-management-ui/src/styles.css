@@ -55,11 +55,16 @@ body {
     padding-left: 0px !important;
 }
 
+.chat-footer {
+    padding: 1rem;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
 @media (max-width: 768px) {
     .custom-form .p-table {
         font-size: 0.9rem;
     }
-
 }
 
 @media (max-width: 576px) {
@@ -71,6 +76,7 @@ body {
         display: flex;
         flex-direction: column;
     }
+
     .p-fileupload-buttonbar .p-ripple {
         margin: 6px 0px;
         width: 100%;
@@ -83,5 +89,17 @@ body {
 
     .p-fileupload .p-fileupload-content {
         padding: 0px;
+    }
+
+    .document-sidebar {
+        display: none;
+    }
+
+    .chat-footer {
+        padding: 1rem !important;
+    }
+
+    .chat-container {
+        margin-top: 20px;
     }
 }
