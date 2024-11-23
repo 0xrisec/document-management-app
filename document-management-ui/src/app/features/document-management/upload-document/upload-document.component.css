@@ -16,6 +16,34 @@
     background-color: #007bff;
 }
 
-.list-group-item  {
+.list-group-item {
     cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .card-body {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 576px) {
+    .card {
+        padding: 0px;
+    }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+    }
+
+    .list-group-item {
+        font-size: 0.9rem;
+    }
+
+    .list-group {
+        padding: 14px;
+    }
 }

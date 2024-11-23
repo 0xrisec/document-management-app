@@ -24,7 +24,7 @@ body {
     margin-bottom: 1rem;
 }
 
-.sidebar-p-button button{
+.sidebar-p-button button {
     border: none;
 }
 
@@ -51,12 +51,37 @@ body {
     margin-bottom: 1rem;
 }
 
+.p-component .p-dropdown-items {
+    padding-left: 0px !important;
+}
+
 @media (max-width: 768px) {
     .custom-form .p-table {
         font-size: 0.9rem;
     }
+
 }
 
-.p-component .p-dropdown-items {
-    padding-left: 0px !important;
+@media (max-width: 576px) {
+    .card {
+        padding: 0px;
+    }
+
+    .p-fileupload-buttonbar {
+        display: flex;
+        flex-direction: column;
+    }
+    .p-fileupload-buttonbar .p-ripple {
+        margin: 6px 0px;
+        width: 100%;
+    }
+
+    .p-fileupload-buttonbar .p-element button {
+        width: 100%;
+        border-radius: 6px;
+    }
+
+    .p-fileupload .p-fileupload-content {
+        padding: 0px;
+    }
 }
