@@ -14,14 +14,14 @@ import { CustomTableComponent } from '../../../shared/custom-table/custom-table.
   standalone: true,
   templateUrl: './document-list.component.html',
   styleUrls: ['./document-list.component.css'],
-  providers: [MessageService, ConfirmationService],
+  providers: [DocumentService, MessageService, ConfirmationService],
 })
 export class DocumentListComponent implements OnInit {
   @Input() config: any = DOC_CONFIGS;
   entityType!: string;
   data: any[] = [];
 
-  constructor(private documentService: DocumentService, private messageService: MessageService, private confirmationService: ConfirmationService) {
+  constructor(private documentService: DocumentService) {
     effect(() => {
       const docs = this.documentService.documents();
       this.data = docs;
@@ -33,26 +33,17 @@ export class DocumentListComponent implements OnInit {
       this.documentService.getDocuments();
     this.entityType = this.config.type;
   }
+  
+  updateItem(item: any) {
+    this.documentService.updateItem(item)
+  }
 
   deleteItem(item: any) {
     this.documentService.deleteItem(item.id)
   }
 
-  updateItem(item: any) {
-    this.documentService.updateItem(item)
-  }
-
   deleteMultipleItems(selectedItems: any) {
     const itemIds = selectedItems.map((item: any) => item.id);
-    this.documentService.deleteMultipleItems(itemIds).subscribe({
-      next: () => {
-        this.data = this.data.filter((val) => !selectedItems.includes(val.id));
-        this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Items Deleted', life: 3000 });
-      },
-      error: (err) => {
-        console.error(err);
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete items', life: 3000 });
-      }
-    });
+    this.documentService.deleteMultipleItems(itemIds);
   }
 }

@@ -4,9 +4,10 @@ import { RippleModule } from 'primeng/ripple';
 import { AvatarModule } from 'primeng/avatar';
 import { StyleClassModule } from 'primeng/styleclass';
 import { ButtonModule } from 'primeng/button';
-import { RouterModule } from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UserService } from '../../../core/services/user.service';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
@@ -22,11 +23,23 @@ export class SidebarComponent implements OnInit {
   name: string = '';
   roles!: string[] | undefined;
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private router: Router) {
     effect(() => {
       const currentUser = this.userService._currentUser();
       this.name = currentUser?.name || '';
       this.roles = currentUser?.roles;
+    });
+
+    this.router.events.pipe(
+      filter((event: any) => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      if (event.url.includes('upload')) {
+        this.setActive('upload');
+      } else if (event.url.includes('documents')) {
+        this.setActive('documents');
+      } else if (event.url.includes('settings')) {
+        this.setActive('settings');
+      }
     });
   }
 

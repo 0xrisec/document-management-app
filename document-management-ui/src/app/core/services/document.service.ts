@@ -4,13 +4,14 @@ import { Observable } from 'rxjs';
 import { HttpService } from './http.service';
 import { Document } from '../../interfaces/document.interface';
 import { DocumentModel } from '../../models/doc.model';
+import { MessageService } from 'primeng/api';
 
 @Injectable({
     providedIn: 'root'
 })
 export class DocumentService {
     public documents = signal<Document[]>([]);
-    constructor(private httpService: HttpService) { }
+    constructor(private httpService: HttpService, private messageService: MessageService) { }
 
     uploadFile(url: string, file: File): Observable<any> {
         const formData: FormData = new FormData();
@@ -39,18 +40,6 @@ export class DocumentService {
         });
     }
 
-    deleteItem(itemId: string) {
-        const url = "http://localhost:3000/document/" + itemId
-        this.httpService.delete<DocumentModel[]>(url).subscribe({
-            next: (res: any) => {
-                console.log(res);
-            },
-            error: (err) => {
-                console.error(err);
-            }
-        });
-    }
-
     updateItem(item: DocumentModel) {
         const url = `http://localhost:3000/document/${item.id}`;
         const headers = new HttpHeaders({
@@ -66,11 +55,32 @@ export class DocumentService {
         });
     }
 
-    deleteMultipleItems(itemIds: string[]): Observable<any> {
+    deleteItem(itemId: string) {
+        const url = "http://localhost:3000/document/" + itemId
+        this.httpService.delete<DocumentModel[]>(url).subscribe({
+            next: (res: any) => {
+                this.documents.set(this.documents().filter(doc => doc.id !== itemId));
+                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Document Deleted', life: 3000 });
+            },
+            error: (err) => {
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete document', life: 3000 });
+            }
+        });
+    }
+
+    deleteMultipleItems(itemIds: string[]) {
         const url = "http://localhost:3000/document/delete";
         const headers = new HttpHeaders({
             'Content-Type': 'application/json'
         });
-        return this.httpService.post(url, itemIds, headers);
+        this.httpService.post(url, itemIds, headers).subscribe({
+            next: () => {
+                this.documents.set(this.documents().filter((doc:any) => !itemIds.includes(doc.id)));
+                this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Documents Deleted', life: 3000 });
+            },
+            error: (err) => {
+                this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to delete Documents', life: 3000 });
+            }
+        });
     }
 }

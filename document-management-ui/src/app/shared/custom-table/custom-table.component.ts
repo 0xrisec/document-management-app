@@ -100,18 +100,7 @@ export class CustomTableComponent implements OnInit {
   }
 
   deleteItem(item: any) {
-    if (this.config)
-      this.confirmationService.confirm({
-        message: `Are you sure you want to delete ${item[this.config.fields[0].key]}?`,
-        header: 'Confirm',
-        icon: 'pi pi-exclamation-triangle',
-        accept: () => {
-          this.deleteItemEvent.emit(item)
-          this.data = this.data.filter((val) => val.id !== item.id);
-          this.currentItem = {};
-          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Item Deleted', life: 3000 });
-        }
-      });
+    this.deleteItemEvent.emit(item)
   }
 
   hideDialog() {
