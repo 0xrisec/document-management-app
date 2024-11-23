@@ -27,7 +27,7 @@ export class UploadDocumentComponent {
   onUpload(event: any) {
     this.documentService.documents.set([]);
     for (let file of event.files) {
-      const url = event.originalEvent.body.document.contentUrl;
+      const url = event.originalEvent.body.documents.contentUrl;
       this.uploadedFiles.push({ file, url });
       this.messageService.add({ severity: 'success', summary: 'File Uploaded', detail: "file uploaded" });
     }

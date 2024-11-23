@@ -1,7 +1,7 @@
 <div class="card shadow-sm">
     <div class="card-body">
         <h5 class="card-title text-center">Upload Your Documents</h5>
-        <p-fileUpload name="file" url="http://localhost:3000/upload/" (onUpload)="onUpload($event)" 
+        <p-fileUpload name="files" url="http://localhost:3000/upload/" (onUpload)="onUpload($event)" 
             [multiple]="true" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt" maxFileSize="10000000"
             chooseLabel="Select Files" uploadLabel="Upload" cancelLabel="Cancel">
             <ng-template pTemplate="content">

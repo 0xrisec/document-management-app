@@ -1,5 +1,5 @@
-import { BadRequestException, Controller, InternalServerErrorException, Post, UploadedFile, UseInterceptors, Request, UseGuards } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { BadRequestException, Controller, InternalServerErrorException, Post, UploadedFiles, UseInterceptors, Request, UseGuards } from '@nestjs/common';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { UploadService } from 'src/services/upload/upload.service';
 import { DocumentService } from 'src/services/document/document.service';
 import { UserService } from 'src/services/user/user.service';
@@ -12,39 +12,42 @@ import { AuthGuard } from '@nestjs/passport';
 export class UploadController {
     constructor(
         private readonly uploadService: UploadService,
-        private readonly documentService: DocumentService,
-        private readonly userService: UserService,
+        private readonly documentService: DocumentService
     ) { }
 
     @Post()
-    @UseInterceptors(FileInterceptor('file', { storage: storageConfig() }))
-    async uploadFile(@UploadedFile() file: Express.Multer.File, @Request() req) {
-        if (!file) {
-            throw new BadRequestException('No file provided');
+    @UseInterceptors(FilesInterceptor('files', 10, { storage: storageConfig() })) 
+    async uploadFiles(@UploadedFiles() files: Express.Multer.File[], @Request() req) {
+        if (!files || files.length === 0) {
+            throw new BadRequestException('No files provided');
         }
         try {
-            const result = await this.uploadService.uploadFileToCloudinary(file);
-            const fileUrl: string = result.secure_url;
-            const fileType = result.context.custom.file_type;
-            const fileName = file.filename;
-            const createDocumentDto: CreateDocumentDto = {
-                fileType: fileType,
-                contentUrl: fileUrl,
-                fileName: fileName,
-                author: req.user.name,
-                userId: req.user.userId,
-                originalName: file.originalname
-            };
+            const documents = [];
+            for (const file of files) {
+                const result = await this.uploadService.uploadFileToCloudinary(file);
+                const fileUrl: string = result.secure_url;
+                const fileType = result.context.custom.file_type;
+                const fileName = file.filename;
+                const createDocumentDto: CreateDocumentDto = {
+                    fileType: fileType,
+                    contentUrl: fileUrl,
+                    fileName: fileName,
+                    author: req.user.name,
+                    userId: req.user.userId,
+                    originalName: file.originalname
+                };
 
-            const document = await this.documentService.create(createDocumentDto);
+                const document = await this.documentService.create(createDocumentDto);
+                documents.push(document);
+            }
 
             return {
-                message: 'File uploaded and document created successfully',
-                document,
+                message: 'Files uploaded and documents created successfully',
+                documents,
             };
         } catch (error) {
-            console.error('Error uploading file or creating document:', error);
-            throw new InternalServerErrorException('Failed to upload file or create document');
+            console.error('Error uploading files or creating documents:', error);
+            throw new InternalServerErrorException('Failed to upload files or create documents');
         }
     }
 }
