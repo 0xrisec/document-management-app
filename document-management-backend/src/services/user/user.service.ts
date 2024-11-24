@@ -4,14 +4,14 @@ import * as bcrypt from 'bcryptjs';
 import { User } from 'src/entities/user.entity';
 import { Role } from 'src/enums/roles.enum';
 import { UpdateUserDto } from 'src/dto/update-user.dto';
-import { In, Repository } from 'typeorm';
+import { MongoRepository } from 'typeorm';
 import { ObjectId } from 'mongodb';
 
 @Injectable()
 export class UserService {
     constructor(
         @InjectRepository(User)
-        private userRepository: Repository<User>,
+        private userRepository: MongoRepository<User>,
     ) { }
 
     async register(username: string, name: string, email: string, password: string): Promise<any> {
@@ -93,6 +93,6 @@ export class UserService {
 
     async deleteUsers(ids: string[]): Promise<void> {
         const objectIds = ids.map(id => new ObjectId(id));
-        await this.userRepository.delete({ _id: In(objectIds) });
+        await this.userRepository.deleteMany({ _id: { $in: objectIds } });
     }
 }
