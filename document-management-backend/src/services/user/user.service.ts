@@ -69,13 +69,19 @@ export class UserService {
         return user;
     }
 
-    async updateUser(id: ObjectId, updateUserDto: UpdateUserDto): Promise<boolean> {
+    async updateUser(
+        id: ObjectId,
+        updateData: Partial<Omit<UpdateUserDto, 'id'>> // Exclude 'id' from updates
+    ): Promise<boolean> {
         const user = await this.userRepository.findOne({ where: { _id: id } });
+
         if (!user) {
             throw new NotFoundException(`User with id ${id} not found`);
         }
-        Object.assign(user, updateUserDto);
-        this.userRepository.save(user);
+
+        Object.assign(user, updateData);
+        await this.userRepository.save(user);
+
         return true;
     }
 

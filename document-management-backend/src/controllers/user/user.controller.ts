@@ -29,14 +29,18 @@ export class UserController {
   @Roles(Role.Admin)
   @UseGuards(RolesGuard)
   async updateUser(
-    @Body() updateUserDto: UpdateUserDto,
+    @Param('id') id: string, // Extract the id from the route parameter
+    @Body() updateUserDto: UpdateUserDto, 
     @Request() req
   ): Promise<any> {
-    const userId = req.user.userId;
-    if (!userId) {
-      throw new BadRequestException('User ID is required');
-    }
-    const updateResult = await this.userService.updateUser(userId, { "name": updateUserDto.name, "email": updateUserDto.email, roles: updateUserDto.roles });
+    const userId = new ObjectId(id); 
+    const updateData = {
+      name: updateUserDto.name,
+      email: updateUserDto.email,
+      roles: updateUserDto.roles,
+    };
+
+    const updateResult = await this.userService.updateUser(userId, updateData);
     if (!updateResult) {
       throw new NotFoundException('User not found');
     }
