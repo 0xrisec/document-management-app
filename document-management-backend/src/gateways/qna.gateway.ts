@@ -36,7 +36,7 @@ export class QnaGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
     async handleInitializeDocuments(@MessageBody() data: { fileUrl: string }): Promise<void> {
         try {
             await this.qnaService.initializeDocuments(data.fileUrl);
-            this.server.emit('ingestionStatus', { message: 'Documents initialized successfully.' });
+            this.server.emit('ingestionStatus', { message: 'Documents initialized successfully.', status: 'completed'});
         } catch (error) {
             this.server.emit('error', { error: error.message });
         }

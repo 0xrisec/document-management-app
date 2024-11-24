@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { QnaController } from 'src/controllers/qna/qna.controller';
 import { QnaService } from 'src/services/qna/qna.service';
 import { PDFDocumentLoader } from 'src/strategies/document-loader/pdf-document-loader';
 import { RecursiveSplitter } from 'src/strategies/document-splitter/recursive-splitter';
@@ -10,7 +9,7 @@ import { QnaGateway } from 'src/gateways/qna.gateway';
 import { CustomDocumentLoaderStrategy } from 'src/strategies/document-loader/custom-document-loader';
 
 @Module({
-  controllers: [QnaController],
+  controllers: [],
   providers: [
     {
       provide: 'DocumentLoaderStrategy',

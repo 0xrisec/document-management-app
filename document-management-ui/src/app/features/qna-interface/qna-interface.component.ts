@@ -54,15 +54,18 @@ export class QnaInterfaceComponent implements AfterViewChecked, OnInit {
 
     this.socketService.getIngestionStatus().subscribe((status: any) => {
       this.ingestionStatus = status.message;
+      if(status.status == 'completed') {
+        this.isLoading = false
+      }
     });
 
     this.initializeDocuments();
+    this.isLoading = true
   }
 
   // This method is used to create Socket-IO connection with the server.
   private connectServer(): void {
-    const data: any = {
-    }
+    const data: any = {}
     this.socketService.handleConnectionEvents(data);
   }
 
