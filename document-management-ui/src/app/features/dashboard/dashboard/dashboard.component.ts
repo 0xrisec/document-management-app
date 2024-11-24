@@ -9,16 +9,19 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
   selector: 'app-dashboard',
   standalone: true,
   imports: [SidebarComponent, RouterOutlet],
-  providers: [],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
-  constructor(private userService: UserService, private apiEndpoints: ApiEndpointsService) {
-  }
+  constructor(
+    private userService: UserService,
+    private apiEndpoints: ApiEndpointsService
+  ) { }
 
   ngOnInit(): void {
     const url = this.apiEndpoints.getEndpoint(this.apiEndpoints.user.profile);
+
+    // Load user profile
     this.userService.getProfile(url);
   }
 }

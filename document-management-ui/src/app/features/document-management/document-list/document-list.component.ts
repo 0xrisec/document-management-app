@@ -33,7 +33,7 @@ export class DocumentListComponent implements OnInit {
       this.documentService.getDocuments();
     this.entityType = this.config.type;
   }
-  
+
   updateItem(item: any) {
     this.documentService.updateItem(item)
   }

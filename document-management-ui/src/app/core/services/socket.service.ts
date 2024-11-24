@@ -10,16 +10,22 @@ import { ApiEndpointsService } from './api-endpoints.service';
 })
 export class SocketService {
     private socket!: WrappedSocket;
+
     constructor(
         @Inject(PLATFORM_ID) private platformId: Object,
         private apiEndpoints: ApiEndpointsService
     ) {
-        const url = this.apiEndpoints.getSocketEndpoint('');
+        const url = this.apiEndpoints.getSocketEndpoint('/');
         if (isPlatformBrowser(this.platformId)) {
             // Socket initialization logic for the browser
             const config: SocketIoConfig = { url: url, options: { autoConnect: false } };
             this.socket = new Socket(config);
         }
+    }
+
+    private ensureSocketConnection(): void {
+        if (this.socket.ioSocket.connected) return;
+        this.socket.connect();
     }
 
     public handleConnectionEvents(data: any) {
@@ -28,10 +34,9 @@ export class SocketService {
         }
 
         this.socket.ioSocket.io.opts.query = data;
-        // this.socket.ioSocket.io.opts.path = `http://127.0.0.1:8080/socket.io`;
-        this.socket.connect();
+        this.ensureSocketConnection();
 
-        // Listen for the 'connect' event to run code once connection is done
+        // Listen for socket events
         this.socket.on('connect', () => {
             console.log('Connected to Socket.IO server');
         });
@@ -40,10 +45,9 @@ export class SocketService {
             console.log('Authentication successful:', data.message);
         });
 
-        // Listen for the 'error' event to log an error message
         this.socket.on('error', (err: any) => {
             console.error('Error during Socket.IO connection:', err);
-        })
+        });
 
         this.socket.on('disconnect', () => {
             console.log('Disconnected from Socket.IO server');
@@ -51,7 +55,8 @@ export class SocketService {
     }
 
     // Method to send a question to the server
-    askQuestion(question: string) {
+    askQuestion(question: string): void {
+        this.ensureSocketConnection();
         this.socket.emit('askQuestion', question);
     }
 
@@ -67,12 +72,23 @@ export class SocketService {
         return this.socket.fromEvent('error');
     }
 
-    initializeDocuments(fileUrl: string) {
+    // Method to emit 'initializeDocuments' event
+    initializeDocuments(fileUrl: string): void {
+        this.ensureSocketConnection();
         this.socket.emit('initializeDocuments', { fileUrl });
     }
 
+    // Method to listen for ingestion status
     getIngestionStatus(): Observable<any> {
         if (!this.socket) return of(null);
         return this.socket.fromEvent('ingestionStatus');
+    }
+
+    // Cleanup when socket service is destroyed
+    ngOnDestroy() {
+        if (this.socket) {
+            this.socket.removeAllListeners();
+            this.socket.disconnect();
+        }
     }
 }

@@ -9,20 +9,27 @@ export class HttpReqInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         if (isPlatformBrowser(this.platformId)) {
-            const token = localStorage.getItem('accessToken');
-            if (token) {
-                const cloned = req.clone({
-                    setHeaders: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-                return next.handle(cloned);
-            } else {
+            try {
+                const token = localStorage.getItem('accessToken');
+                if (token) {
+                    const clonedRequest = req.clone({
+                        setHeaders: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+                    return next.handle(clonedRequest);
+                }
+                // No token found, continue with the original request
                 return next.handle(req);
+            } catch (error) {
+                // Handle errors while accessing localStorage
+                console.log('Error accessing localStorage:', error);
+                return next.handle(req); // Continue with the original request
             }
         } else {
-            // On the server side, return an observable with an error
-            return throwError(() => new Error('Access denied: localStorage is unavailable on the server side.'));
+            // Server-side logic: localStorage is unavailable
+            console.warn('Attempted to intercept an HTTP request on the server side.');
+            return next.handle(req); // Continue with the original request on the server side
         }
     }
 }

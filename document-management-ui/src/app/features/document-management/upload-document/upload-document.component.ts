@@ -18,7 +18,7 @@ import { ApiEndpointsService } from '../../../core/services/api-endpoints.servic
   styleUrl: './upload-document.component.css',
   providers: [MessageService, DocumentService]
 })
-export class UploadDocumentComponent implements OnInit{
+export class UploadDocumentComponent implements OnInit {
   uploadedFiles: any[] = [];
   totalSize: number = 0;
   totalSizePercent: number = 0;
@@ -35,10 +35,27 @@ export class UploadDocumentComponent implements OnInit{
 
   onUpload(event: any) {
     this.documentService.documents.set([]);
+
+    // Iterate over the uploaded files
     for (let file of event.files) {
-      const url = event.originalEvent.body.documents.contentUrl;
-      this.uploadedFiles.push({ file, url });
-      this.messageService.add({ severity: 'success', summary: 'File Uploaded', detail: "file uploaded" });
+      // Check if the documents array exists and has at least one document
+      const documents = event.originalEvent.body?.documents;
+      if (documents && documents.length > 0) {
+        // Iterate over the documents array to get the contentUrl
+        for (let document of documents) {
+          const url = document.contentUrl;  // Extract the URL from the document
+
+          if (url) {
+            this.uploadedFiles.push({ file, url });
+            this.messageService.add({ severity: 'success', summary: 'File Uploaded', detail: "file uploaded" });
+          } else {
+            this.messageService.add({ severity: 'error', summary: 'Upload Failed', detail: 'Content URL not available for the document' });
+          }
+        }
+      } else {
+        this.messageService.add({ severity: 'error', summary: 'Upload Failed', detail: 'No documents returned in the response' });
+      }
     }
   }
+
 }

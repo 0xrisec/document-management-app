@@ -42,7 +42,7 @@ export class UserService {
         this.httpService.get<UserModel[]>(url).subscribe({
             next: (res: UserModel[]) => {
                 // Map the response to UserModel instances
-                const users = res.map((user:any) => new UserModel(
+                const users = res.map((user: any) => new UserModel(
                     user._id,
                     user.username,
                     user.name,
@@ -75,7 +75,7 @@ export class UserService {
         });
     }
 
-    
+
     deleteUsers(userIds: string[]) {
         const url = this.apiEndpoints.getEndpoint(this.apiEndpoints.user.delete);
         const headers = new HttpHeaders({
@@ -83,7 +83,7 @@ export class UserService {
         });
         this.httpService.post(url, userIds, headers).subscribe({
             next: () => {
-                this._allUsers.set(this._allUsers().filter((user:any) => !userIds.includes(user.id)));
+                this._allUsers.set(this._allUsers().filter((user: any) => !userIds.includes(user.id)));
                 this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'Users Deleted', life: 3000 });
             },
             error: (err) => {

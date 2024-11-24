@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ApiEndpointsService } from '../../../core/services/api-endpoints.service';
 import { UserService } from '../../../core/services/user.service';
-import { ValidatorFn } from '../../../interfaces/validator.interface';
 import { User } from '../../../models/user.model';
 import { FormComponent } from '../../../shared/components/form/form.component';
 
@@ -25,25 +24,43 @@ export class SignupComponent {
   ) { }
 
   onSubmit(formData: any): void {
-    const newUser = {
+    if (!formData.username || !formData.name || !formData.email || !formData.password) {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Validation Error',
+        detail: 'All fields are required.',
+        life: 3000
+      });
+      return;
+    }
+
+    const newUser: User = {
       username: formData.username,
       name: formData.name,
       email: formData.email,
       password: formData.password
     };
+
     const url = this.apiEndpoints.getEndpoint(this.apiEndpoints.auth.signup);
-    this.userService.createUser(url, newUser).subscribe(
-      {
-        next: (res) => {
-          console.log(res);
-          this.messageService.add({ severity: 'success', summary: 'Successful', detail: 'User registered successfully', life: 3000 });
-          // Redirect to login
-          this.router.navigate(['/login'])
-        },
-        error: (err) => {
-          this.messageService.add({ severity: 'error', summary: 'Success', detail: err.message, life: 3000  });
-        }
+    this.userService.createUser(url, newUser).subscribe({
+      next: () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Successful',
+          detail: 'User registered successfully!',
+          life: 3000
+        });
+        this.router.navigate(['/login']); // Redirect to login page
+      },
+      error: (err) => {
+        const errMsg: string = err?.error?.message || 'Failed to register user. Please try again.';
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: errMsg,
+          life: 3000
+        });
       }
-    )
+    });
   }
 }
