@@ -17,8 +17,13 @@
                     {{ formType === 'signup' ? 'Sign Up' : 'Sign In' }}
                 </button>
             </form>
-            <a *ngIf="formType === 'signup'" href="/sign_in" class="d-block text-center mt-3">Have an account? Sign
-                in.</a>
+            <p class="signup-redirect" *ngIf="formType === 'signup'" class="d-block text-center mt-3">
+                Have an account? <a routerLink="/login">Sign
+                    in.</a>.
+            </p>
+            <p class="signup-redirect" *ngIf="formType === 'login'" class="d-block text-center mt-3">
+                Not registered? <a routerLink="/signup">Sign up here</a>.
+            </p>
         </div>
     </div>
 </div>
