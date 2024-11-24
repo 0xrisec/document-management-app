@@ -27,23 +27,31 @@ To install this project, follow these steps:
 
 This diagram illustrates the architectural design of the project, showcasing the interplay between various components and technologies.
 
-![Customer Journey Map (1)](https://github.com/user-attachments/assets/45ec3a18-3f44-435c-b9bc-85b1a26983c8)
+![Customer Journey Map (2)](https://github.com/user-attachments/assets/83425d4f-d8de-40cb-b9c6-884f4efca36d)
 
 **Key Components:**
 
 1. **Client:** The frontend of the application, built using Angular, handles user interactions and displays data.
 2. **Angular:** A powerful JavaScript framework for building robust and scalable web applications. It facilitates the creation of dynamic and interactive user interfaces.
-3. **NestJS:** A progressive Node.js framework for building efficient and scalable server-side applications. It provides a structured approach to organizing code and handling API requests.
-4. **TypeORM:** An object-relational mapper (ORM) that simplifies database interactions by providing a type-safe and intuitive way to work with data models. It connects the NestJS backend to the MongoDB database.
-5. **MongoDB:** A flexible NoSQL database that excels in handling large volumes of unstructured data. It serves as the data storage layer for the application.
-6. **Cloudinary:** A cloud-based platform designed to optimize, store, and deliver image and video assets efficiently. It integrates with a NestJS backend to handle raw document uploads.
-7. **Google Analytics 4:** This is a web analytics service provided by Google that allows you to track user behavior and website performance. It's likely integrated to collect data on user interactions with your application.
+3. **Google Analytics 4:** This is a web analytics service provided by Google that allows you to track user behavior and website performance. It's likely integrated to collect data on user interactions with your application.
+4. **NestJS:** A progressive Node.js framework for building efficient and scalable server-side applications. It provides a structured approach to organizing code and handling API requests.
+5. **TypeORM:** An object-relational mapper (ORM) that simplifies database interactions by providing a type-safe and intuitive way to work with data models. It connects the NestJS backend to the MongoDB database.
+6. **MongoDB:** A flexible NoSQL database that excels in handling large volumes of unstructured data. It serves as the data storage layer for the application.
+7. **Cloudinary:** A cloud-based platform designed to optimize, store, and deliver image and video assets efficiently. It integrates with a NestJS backend to handle raw document uploads.
+8. **LangChain:** An AI framework that orchestrates the interaction between various components, including embeddings, vector stores, and large language models (LLMs).
+9. **Hugging Face Inference Embeddings:** A service for generating embeddings (numerical representations of text data) using Hugging Face's models.
+10. **Gemini Pro:** A large language model (LLM) that can be used for generating text, translating languages, and other natural language tasks.
+11. **MemoryVectorStore:** A component that stores and retrieves embeddings, allowing the LLM to access and process information from the database.
 
-**Data Flow:**
+**Data Flow and Interactions**
 
-1. The **Client** sends requests to the **Angular** frontend, which then communicates with the **NestJS** backend via API calls.
-2. The **NestJS** backend interacts with the **MongoDB** database using **TypeORM** to retrieve or store data as needed.
-3. When document uploads are required, the **NestJS** backend integrates with the **Cloudinary** API to handle document processing and storage.
-4. The processed documents are then made accessible via Cloudinary's API for efficient delivery to the **Client**.
-5. Google Analytics 4 tracks user interactions and sends data to Google for analysis.
-
+1. **Client to Angular:** The user interacts with the Angular-based frontend, triggering actions like making requests or submitting forms.
+2. **Angular to NestJS:** Angular sends requests to the NestJS backend, which handles the business logic and data processing.
+3. **NestJS to TypeORM:** NestJS interacts with the database using TypeORM to fetch or store data as needed.
+4. **NestJS to Cloudinary:** NestJS interacts with Cloudinary to manage documents, uploading, or fetching them.
+5. **NestJS to LangChain:** NestJS sends data to LangChain for processing and analysis.
+6. **LangChain to Hugging Face Inference Embeddings:** LangChain sends document data to the Hugging Face service to generate embeddings.
+7. **LangChain to MemoryVectorStore:** LangChain stores the generated embeddings in the MemoryVectorStore for later retrieval and analysis.
+8. **LangChain to Gemini:** LangChain interacts with the Gemini LLM to perform tasks like text generation, translation, or summarization.
+9. **LangChain to NestJS:** LangChain returns the processed data (e.g., generated text, embeddings) to NestJS for further processing or sending back to the client.
+10. **NestJS to Angular:** NestJS sends the processed data or responses to Angular, which updates the user interface accordingly.
