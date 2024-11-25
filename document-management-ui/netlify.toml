@@ -4,6 +4,6 @@
   functions = "netlify/functions"  # Path to the server-side functions
 
 [[redirects]]
-  from = "/login"
-  to = "/"
+  from = "/"
+  to = "/login"
   status = 200

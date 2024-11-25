@@ -11,6 +11,8 @@ import { UserListComponent } from './features/user-management/user-list/user-lis
 import { CustomTableComponent } from './shared/custom-table/custom-table.component';
 
 export const routes: Routes = [
+    { path: '', redirectTo: '/login', pathMatch: 'full' }, // Redirect to login by default
+    { path: 'login', component: LoginComponent, canActivate: [RedirectAuthGuard] },
     { path: 'signup', component: SignupComponent, canActivate: [RedirectAuthGuard] },
     {
         path: 'dashboard',
@@ -25,7 +27,5 @@ export const routes: Routes = [
         ],
         canActivate: [AuthGuard]
     },
-    { path: 'login', component: LoginComponent, canActivate: [RedirectAuthGuard] },
-    { path: '', redirectTo: '/login', pathMatch: 'full' }, // Redirect to login by default
     { path: '**', redirectTo: '/login' } // Wildcard route for a 404 page];
 ]
