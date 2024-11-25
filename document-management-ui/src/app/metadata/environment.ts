@@ -1,5 +1,5 @@
 export const environment = {
-    apiBaseUrl: 'http://localhost:3000',
+    apiBaseUrl: 'https://sticky-jaine-vikas25019-206460d0.koyeb.app',
     socketUrl: 'http://localhost:8080',
     endpoints: {
         user: {
