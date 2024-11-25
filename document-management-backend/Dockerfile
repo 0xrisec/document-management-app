@@ -7,6 +7,7 @@ COPY package*.json ./
 # COPY .env ./
 # Install dependencies
 RUN npm install
+RUN npm run build
 # Copy the built application
 COPY dist ./dist
 # Expose the application port
