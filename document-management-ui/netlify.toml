@@ -2,3 +2,8 @@
   command = "npm run build" # The command to build the SSR application
   publish = "dist/document-management-ui/browser"      # Path to the client-side output
   functions = "netlify/functions"  # Path to the server-side functions
+
+[[redirects]]
+  from = "/login"
+  to = "/"
+  status = 200
