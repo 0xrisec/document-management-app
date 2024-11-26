@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: document-management-app
+    env: docker
+    image: vikas9012/document-management-app # The Docker image to run
+    ports:
+      - "3000" # Expose port 3000
+      - "8080" # Expose port 8080
+    startCommand: "docker run -d -p 3000:3000 -p 8080:8080 vikas9012/document-management-app"
+    pullRequestPreviews: false
