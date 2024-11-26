@@ -2,7 +2,7 @@ import { WebSocketGateway, WebSocketServer, SubscribeMessage, MessageBody, OnGat
 import { Server, Socket } from 'socket.io';
 import { QnaService } from 'src/services/qna/qna.service';
 
-@WebSocketGateway(8080, { cors: true })
+@WebSocketGateway(Number(process.env.SOCKET_PORT) || 8080, { cors: true })
 export class QnaGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
     @WebSocketServer() server: Server;
 

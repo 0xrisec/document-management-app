@@ -4,12 +4,15 @@ FROM node:18-alpine
 WORKDIR /usr/src/app
 # Copy package.json and package-lock.json
 COPY package*.json ./
-# COPY .env ./
+
+# Copy the built application
+
+COPY dist ./dist
+
+# Copy the env variables
+COPY .env ./
 # Install dependencies
 RUN npm install
-RUN npm run build
-# Copy the built application
-COPY dist ./dist
 # Expose the application port
 EXPOSE 3000
 # Start the Nest.js application
