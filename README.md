@@ -5,8 +5,6 @@
 2. [Features](#features)
 3. [Installation](#installation)
 4. [Usage](#usage)
-5. [Testing](#testing)
-6. [Links](#links)
 
 ## Description
 The Document Management and RAG-based Q&A Application is designed to manage users, documents, and an ingestion process that generates embeddings for document retrieval in a Q&A setting. It features an Angular-based frontend for user interaction with backend services.
@@ -19,7 +17,47 @@ The Document Management and RAG-based Q&A Application is designed to manage user
 - **Q&A Interface**: User-friendly interface for asking questions and receiving answers with relevant document excerpts.
 
 ## Installation
-To install this project, follow these steps:
+
+### Prerequisites
+Ensure the following are installed:
+- **Node.js**  
+- **Angular CLI**  
+- **Docker**  
+
+### Steps
+1. **Clone the repository**:
+   
+  ```bash
+   git clone https://github.com/0xrisec/document-management-app.git
+  ```
+2. **Setup Frontend:**
+   
+  ```bash
+    cd document-management-ui
+    npm install
+    npm run start
+  ```
+  Access the frontend at: http://localhost:4200/
+
+3. **Setup Backend:**
+
+Open a new terminal and navigate to the backend directory:
+  ```
+    cd document-management-backend
+  ```
+
+4. **Pull and run the Docker image:**
+
+ ```
+    docker pull vikas9012/document-management-app:1.0.0
+    docker run -d -p 3000:3000 -p 8080:8080 vikas9012/document-management-app:1.0.0
+  ```
+Backend API: http://localhost:3000/
+
+WebSocket Service: Port 8080
+
+5. **Access the Application:**:
+Visit http://localhost:4200/ to use the application.
 
 ### Clone the repository:
 
