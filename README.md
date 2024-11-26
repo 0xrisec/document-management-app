@@ -18,6 +18,8 @@ The Document Management and RAG-based Q&A Application is designed to manage user
 
 ## Installation
 
+https://github.com/user-attachments/assets/52b25630-97d3-465c-a48e-f6bf1187e74a
+
 ### Prerequisites
 Ensure the following are installed:
 - **Node.js**  
@@ -58,8 +60,6 @@ WebSocket Service: Port 8080
 
 5. **Access the Application:**:
 Visit http://localhost:4200/ to use the application.
-
-### Clone the repository:
 
 # Architecture Overview
 
