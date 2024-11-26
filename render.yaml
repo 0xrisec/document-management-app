@@ -4,4 +4,4 @@ services:
     env: docker
     image: 
       url: docker.io/vikas9012/document-management-app:1.0.0
-    start_command: docker run -d -p 3000:3000 -p 8080:8080 vikas9012/document-management-app
+    command: docker run -d -p 3000:3000 -p 8080:8080 vikas9012/document-management-app

@@ -17,3 +17,10 @@ RUN npm install
 EXPOSE 3000
 # Start the Nest.js application
 CMD ["node", "dist/main.js"]
+
+
+
+# docker build -t doc-pro .
+# docker tag doc-pro:latest vikas9012/doc-pro:1.0.1
+# docker push vikas9012/doc-pro:1.0.1
+# docker run -d -p 8080:8080 a6682ac84c519ef52daf34e7d11aeaf725b4563f7a8dc1b9a828c43042892037
