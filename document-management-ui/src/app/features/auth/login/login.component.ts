@@ -46,10 +46,8 @@ export class LoginComponent {
       },
       error: (err) => {
         const errMsg: string = err?.error?.message || "Internal server error. Please try again later.";
-        setTimeout(() => {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: errMsg, life: 3000 });
-          this.loading = false;
-        }, 500);
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: errMsg, life: 3000 });
+        this.loading = false;
       },
       complete: () => {
         this.loading = false;
