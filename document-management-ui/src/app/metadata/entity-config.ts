@@ -1,12 +1,5 @@
-export interface EntityConfig {
-    type: string;
-    fields: { key: string; label: string , allowToUpdate?:boolean}[];
-    isChat?: boolean;
-}
-
-export interface SidebarConfig {
-    buttons: { key: string; label: string; icon: string; route: string; roles?: string[] }[];
-}
+import { EntityConfig } from "../interfaces/entity.interface";
+import { SidebarConfig } from "../interfaces/sidebar.interface";
 
 export const DOC_CONFIGS: EntityConfig = {
     type: 'documents',
