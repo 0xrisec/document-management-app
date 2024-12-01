@@ -3,7 +3,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { DocumentService } from '../../../core/services/document.service';
 import { DOC_CONFIGS } from '../../../metadata/entity-config';
 import { NoDataComponent } from '../../../shared/components/no-data/no-data.component';
-import { CustomTableComponent } from '../../../shared/custom-table/custom-table.component';
+import { CustomTableComponent } from '../../../shared/components/custom-table/custom-table.component';
 
 @Component({
   selector: 'app-document-list',

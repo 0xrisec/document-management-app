@@ -3,7 +3,7 @@ import { UserService } from '../../../core/services/user.service';
 import { DOC_CONFIGS, USER_CONFIGS } from '../../../metadata/entity-config';
 import { UserModel } from '../../../models/user.model';
 import { NoDataComponent } from '../../../shared/components/no-data/no-data.component';
-import { CustomTableComponent } from '../../../shared/custom-table/custom-table.component';
+import { CustomTableComponent } from '../../../shared/components/custom-table/custom-table.component';
 
 @Component({
   selector: 'app-user-list',

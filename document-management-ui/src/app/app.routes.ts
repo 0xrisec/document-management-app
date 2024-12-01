@@ -8,7 +8,7 @@ import { DocQnaInterfaceComponent } from './features/doc-qna-interface/doc-qna-i
 import { DocumentListComponent } from './features/document-management/document-list/document-list.component';
 import { UploadDocumentComponent } from './features/document-management/upload-document/upload-document.component';
 import { UserListComponent } from './features/user-management/user-list/user-list.component';
-import { CustomTableComponent } from './shared/custom-table/custom-table.component';
+import { CustomTableComponent } from './shared/components/custom-table/custom-table.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' }, // Redirect to login by default

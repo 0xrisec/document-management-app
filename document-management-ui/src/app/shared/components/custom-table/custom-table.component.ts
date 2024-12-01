@@ -16,7 +16,7 @@ import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
-import { USER_CONFIGS } from '../../metadata/entity-config';
+import { USER_CONFIGS } from '../../../metadata/entity-config';
 
 @Component({
   selector: 'app-custom-table',
