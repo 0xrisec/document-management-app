@@ -16,6 +16,7 @@ import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
+import { USER_CONFIGS } from '../../metadata/entity-config';
 
 @Component({
   selector: 'app-custom-table',
@@ -55,11 +56,8 @@ export class CustomTableComponent implements OnInit {
   dialogVisible: boolean = false;
   currentItem: any;
   submitted: boolean = false;
-  rolesOptions = [
-    { label: 'User', value: 'user' },
-    { label: 'Admin', value: 'admin' }
-  ];
-
+  userConfig: any = USER_CONFIGS;
+  rolesOptions = [];
   isAdmin: boolean = this.checkIfAdmin();
 
   checkIfAdmin(): boolean {
@@ -74,6 +72,7 @@ export class CustomTableComponent implements OnInit {
 
   ngOnInit() {
     console.log(this.data);
+    this.rolesOptions = this.userConfig.rolesOptions;
     this.isChat = this.config.isChat;
   }
 
