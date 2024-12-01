@@ -1,13 +1,9 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { catchError, map, Observable, of } from 'rxjs';
+import { TokenValidationResponse } from '../../interfaces/token-validation.interface';
 import { ApiEndpointsService } from './api-endpoints.service';
 import { HttpService } from './http.service';
-
-interface TokenValidationResponse {
-    value: boolean;
-    error?: string;
-}
 
 @Injectable({
     providedIn: 'root'
