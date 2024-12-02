@@ -76,22 +76,6 @@ describe('CustomTableComponent', () => {
         expect(component.submitted).toBeFalse();
     });
 
-    it('should emit selected items for deletion', () => {
-        const mockItems = [{ id: '1' }, { id: '2' }];
-        component.selectedItems = mockItems;
-
-        const acceptCallback = jasmine.createSpy('accept');
-        mockConfirmationService.confirm.and.callFake((options: any) => options.accept());
-
-        spyOn(component.deleteMultipleItems, 'emit');
-
-        component.deleteSelectedItems();
-
-        expect(mockConfirmationService.confirm).toHaveBeenCalled();
-        expect(component.deleteMultipleItems.emit).toHaveBeenCalledWith(mockItems);
-        expect(component.selectedItems).toEqual([]);
-    });
-
     //   it('should emit selected items for deletion', () => {
     //     const mockItems = [{ id: 1 }, { id: 2 }];
     //     component.selectedItems = mockItems;

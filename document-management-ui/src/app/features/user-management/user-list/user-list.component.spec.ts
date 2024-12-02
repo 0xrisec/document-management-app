@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { UserListComponent } from './user-list.component';
 import { UserService } from '../../../core/services/user.service';
 import { NoDataComponent } from '../../../shared/components/no-data/no-data.component';
-import { CustomTableComponent } from '../../../shared/custom-table/custom-table.component';
+import { CustomTableComponent } from '../../../shared/components/custom-table/custom-table.component';
 import { of } from 'rxjs';
 
 describe('UserListComponent', () => {
